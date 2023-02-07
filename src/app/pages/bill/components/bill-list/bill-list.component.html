@@ -1,0 +1,55 @@
+<!-- Temporal despues descomentar
+<ion-list>
+  <ion-item *ngFor="let i of items">
+    <label>20/05/2000</label>
+    <p>La factura del día en cuestrion. Pinche para más detalles.</p>
+  </ion-item>
+</ion-list>
+-->
+
+<!-- PRUEBA TEMPORAL: Primero hay que crear un elemento solo sin ngFor para probar -->
+<!--
+<ion-list>
+  <ion-nav-link router-direction="forward" [component]="bill">
+    <ion-item button="true" detail="true">
+      <label>20/05/2000</label>
+      <p>La factura del día en cuestrion. Pinche para más detalles.</p>
+    </ion-item>
+  </ion-nav-link>
+</ion-list>
+-->
+
+<!-- PRUEBA TEMPORAL: Primero hay que crear un elemento solo sin ngFor para probar -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Lista de facturas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <!--
+    <ion-nav-link router-direction="forward" [component]="bill" [componentProps]="{date: '50/01/3000'}">
+      <ion-item button="true" detail="true">
+        <label>
+          <h6>20/05/2000</h6>
+          <p>La factura del día en cuestrion. Pinche para más detalles.</p>
+        </label>
+      </ion-item>
+    </ion-nav-link>
+    -->
+
+    <ion-nav-link *ngFor="let bill of billsList" 
+                  router-direction="forward" 
+                  [component]="billComp" 
+                  [componentProps]="{date: bill.date.toLocaleDateString()}"
+                  >
+      <ion-item button="true" detail="true">
+        <label>
+          <h6>20/05/2000 - {{bill.date.toLocaleDateString()}}</h6>
+          <p>Nº Factura {{bill.id}} - La factura del día en cuestrion. Pinche para más detalles.</p>
+        </label>
+      </ion-item>
+    </ion-nav-link>
+  </ion-list>
+</ion-content>

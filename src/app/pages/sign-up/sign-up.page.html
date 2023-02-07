@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>sign-up</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" >
+  <ion-list lines="none" class="ion-padding">
+    <ion-item>
+      <ion-label>Nombre de usuario:</ion-label>
+      <ion-input #user type="text" [formControl]="userName"></ion-input>
+    </ion-item>
+    <br/>
+    <ion-item>
+      <ion-label>Email:</ion-label>
+      <ion-input #user type="text" [formControl]="formEmail"></ion-input>
+    </ion-item>
+    <br/>
+    <ion-item>
+      <ion-label>Escriba su contraseña:</ion-label>
+      <ion-input #password type="password" [formControl]="textPassword"></ion-input>
+    </ion-item>
+    <br/>
+    <ion-item>
+      <ion-button (click)="signingUp()">Registrarse</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

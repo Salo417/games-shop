@@ -1,0 +1,23 @@
+ion-item > label > h6 {
+    color: var(--ion-color-primary);
+    font-weight: bold;
+}
+
+ion-item > label > p {
+    margin-left: 23px;
+}
+
+.userAvatar {
+    padding: 1px;
+}
+
+.userHeaderInfo {
+    margin: 18px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.userElement {
+    margin-left: 18%;
+}

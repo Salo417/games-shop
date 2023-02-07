@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Atrás"></ion-back-button>
+    </ion-buttons>
+    <ion-title>profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Header where user picture, name, subname and user ID will display -->
+  <div class="userHeaderInfo">
+    <ion-avatar class="userAvatar">
+      <img alt="Silhouette of a person's head" src="assets/icon/anonymous-avatar.svg"/>
+      <!--../../../assets/icon/anonymous-avatar.svg-->
+    </ion-avatar>
+    <div class="userElement">
+      <ion-text>{{ProfilePage.nombre}}, {{ProfilePage.apellidos}}</ion-text>
+      <br/>
+      <ion-text>ID: 00000</ion-text>
+    </div>
+  </div>
+
+  <!-- The box body where user information will display -->
+  <div>
+    <ion-list>
+      <ion-item button="true" detail="true" (click)="openEditModal()">
+        <label>
+          <h6>DNI/CIF/Pasaporte:</h6>
+          <p>99999999A</p>
+        </label>
+      </ion-item>
+      <ion-item button="true" detail="true">
+        <label>
+          <h6>Fecha de suscripción:</h6>
+          <p>--/--/---- --:--</p>
+        </label>
+      </ion-item>
+      <ion-item button="true" detail="true">
+        <label>
+          <h6>Teléfono de contacto:</h6>
+          <p>XXX XX XX XX</p>
+        </label>
+      </ion-item>
+      <ion-item button="true" detail="true">
+        <label>
+          <h6>Correo electrónico:</h6>
+          <p>aaaaaaaa@gmail.com</p>
+        </label>
+      </ion-item>
+      <ion-item button="true" detail="true">
+        <label>
+          <h6>Dirección fiscal:</h6>
+          <p>
+            <span>
+              c/ Alameda Principal,
+              1,
+              1A,
+              (Málaga)
+              Málaga
+              29000
+              España
+            </span>
+          </p>
+        </label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <ion-modal [isOpen]="_isModalOpen">
+    <ng-template>
+
+    </ng-template>
+  </ion-modal>
+</ion-content>

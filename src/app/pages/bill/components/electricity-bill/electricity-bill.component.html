@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Factura</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-accordion-group>
+    <ion-accordion value="first">
+      <ion-item slot="header">
+        <ion-label>Datos del Títular</ion-label>
+      </ion-item>
+      <div slot="content">
+  
+      </div>
+    </ion-accordion>
+    <ion-accordion value="second">
+      <ion-item slot="header">
+        <ion-label>Detalles de entidad energética</ion-label>
+      </ion-item>
+      <div slot="content">
+  
+      </div>
+    </ion-accordion>
+    <ion-accordion value="third">
+      <ion-item slot="header">
+        <ion-label>Datos Factura</ion-label>
+      </ion-item>
+      <div slot="content">
+        {{date}}
+      </div>
+    </ion-accordion>
+    <ion-accordion value="fourth">
+      <ion-accordion>
+        <ion-item slot="header">
+          <ion-label>Detalle de la Factura de Electricidad</ion-label>
+        </ion-item>
+        <div slot="content">
+  
+        </div>
+      </ion-accordion>
+    </ion-accordion>
+    <ion-accordion value="fifth">
+      <ion-item slot="header">
+        <ion-label>Datos del Contrato</ion-label>
+      </ion-item>
+      <div slot="content">
+  
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+</ion-content>

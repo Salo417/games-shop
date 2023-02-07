@@ -1,0 +1,22 @@
+<ng-container *ngTemplateOutlet="dni"></ng-container>
+
+<!-- Empty template -->
+<ng-template #empty></ng-template>
+
+<ng-template #dni>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>DNI/CIF/Pasaporte</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="setModalOpen(true)"></ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-item>
+      <label>Introduzca su DNI o pasaporte:</label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+  </ion-content>
+</ng-template>

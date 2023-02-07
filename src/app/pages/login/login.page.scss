@@ -1,0 +1,35 @@
+.loginBackground::part(background) {
+    background: purple;
+}
+
+/*
+div.loginBox {
+    width: 45%;
+    min-height: 45%;
+    margin: auto;
+    margin-top: 8%;
+    padding: 3%;
+    background: var(--ion-color-light);
+}
+*/
+
+.ion-padding {
+    --ion-padding: 2.3%;
+}
+
+/*
+.ion-content {
+    padding: 3%;
+}
+*/
+
+div.loginBox {
+    margin: 3%;
+    padding: 3%;
+    background: var(--ion-color-light);
+}
+
+.login-inputs {
+    width: 100%;
+    margin-bottom: 1.5%;
+}

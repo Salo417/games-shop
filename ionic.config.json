@@ -1,0 +1,7 @@
+{
+  "name": "iberdrola-hacendado",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

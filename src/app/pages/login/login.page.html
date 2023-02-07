@@ -1,0 +1,67 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="loginBackground ion-padding">
+  <ion-list lines="none" class="ion-padding">
+    <ion-item>
+      <ion-label position="stacked">Usuario</ion-label>
+      <ion-input type="text" [formControl]="userEmail"></ion-input>
+    </ion-item>
+    <br>
+    <ion-item>
+      <ion-label position="stacked">Contraseña</ion-label>
+      <ion-input type="password" [formControl]="password"></ion-input>
+    </ion-item>
+    <br>
+    <ion-text>
+      <a [routerLink]="['../sign-up']">¿No tienes una cuenta?</a>
+    </ion-text>
+    <br>
+    <!--
+    <ion-item class="ion-float-right">
+      <ion-button [routerLink]="['../home']">Iniciar sesión</ion-button>
+    </ion-item>
+    <br>
+    -->
+    <ion-item class="ion-float-right">
+      <ion-button (click)="login()">Iniciar sesión</ion-button>
+    </ion-item>
+    <br>
+    <ion-item>
+      <ion-button (click)="verUsuariosConsole()">Ver usuarios</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<!--
+  
+-->
+
+<!--
+<div class="loginBox ion-color-light">
+  <form>
+    <label>Usuario</label><br>
+    <input type="text" class="login-inputs"><br>
+    <label>Contraseña</label><br>
+    <input type="password" class="login-inputs"><br>
+    <a>¿No tienes una cuenta?</a>
+  </form>
+
+</div>
+-->
+<!--
+  <ion-item>
+    <ion-label position="stacked">Usuario</ion-label>
+    <ion-input></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Contraseña</ion-label>
+    <ion-input></ion-input>
+  </ion-item>
+  <ion-text>
+    <a>¿No tienes una cuenta?</a>
+  </ion-text>
+-->
