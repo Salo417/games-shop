@@ -1,6 +1,7 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserLogedService } from './services/api/user-loged.service';
+import { ProductsApiService } from './services/api/products-api.service';
 
 
 
@@ -23,7 +24,7 @@ export class CoreModule {
   static forRoot(/*userService?: UserLogedService*/): ModuleWithProviders<CoreModule> {
     return {
       ngModule: CoreModule,
-      providers: [UserLogedService]
+      providers: [UserLogedService, ProductsApiService]
     }
   }
 

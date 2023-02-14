@@ -1,0 +1,13 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>{{controller.product.name}}</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    Price: {{controller.product.price}}
+    Platfom: {{controller.product.platform}}
+  </ion-card-content>
+
+  <ion-button (click)="edit()">Editar</ion-button>
+  <ion-button (click)="delete()">Borrar</ion-button>
+</ion-card>

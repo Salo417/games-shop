@@ -127,6 +127,7 @@ export class UserLogedService {
           response.user.email
         );
         UserLogedService.token = response.jwt;
+        sessionStorage.setItem("jwt", UserLogedService.token);
         //console.log(response.user);
         //console.log(response.jwt);
         //console.log( this.user.toString() );
@@ -147,7 +148,7 @@ export class UserLogedService {
 
 
   /**
-   * Submit an user to back-end.
+   * Submit an user to backend.
    * @param user The user that will submit using the IUser interface.
    * @returns Promise for starting connection that returns the http response JSON string.
    */

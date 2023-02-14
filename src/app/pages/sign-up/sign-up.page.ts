@@ -49,7 +49,7 @@ export class SignUpPage implements OnInit {
         .then( async response => {
           console.log(`Uauario registrado correctamente: ${response}`);
           const dialogue = await this.alertCtrl.create({
-            message: "El usuario se ha registrado correctamnete.",
+            message: "El usuario se ha registrado correctamente.",
             buttons: [{
               text: 'Vale',
               role: 'seguir',

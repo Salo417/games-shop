@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { SwiperComponent } from 'swiper/angular';
 import SwiperCore, { Navigation } from 'swiper';
+import { ProductsService } from 'src/app/services/products.service';
 
 
 SwiperCore.use([Navigation]);
@@ -13,6 +14,9 @@ SwiperCore.use([Navigation]);
 })
 export class HomePage {
 
-  constructor() {}
+  constructor(private productService: ProductsService) {}
 
+  listProducts() {
+    this.productService.getAllProducts();
+  }
 }

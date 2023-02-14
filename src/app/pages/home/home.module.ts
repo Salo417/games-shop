@@ -7,6 +7,7 @@ import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { SwiperModule } from 'swiper/angular';
+import { ProductsService } from 'src/app/services/products.service';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { SwiperModule } from 'swiper/angular';
     HomePageRoutingModule,
     SwiperModule
   ],
-  declarations: [HomePage]
+  declarations: [HomePage],
+  providers: [ProductsService]
 })
 export class HomePageModule {}
