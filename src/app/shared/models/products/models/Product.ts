@@ -2,7 +2,8 @@
  * Created by Salo417 (GitHub/email: schooldayssal@gmail.com). At feb-13-2023.
  */
 
-import { EPlatforms } from "./EPlatforms";
+import { isArraysEqual } from "@fullcalendar/angular";
+import { range } from "rxjs";
 import { IProduct } from "./IProduct";
 
 
@@ -70,20 +71,26 @@ export class Product implements IProduct {
      * @throws If number is negative.
      */
     public set pid(pid: number) {
+        /*
         if (pid >= 0)
             this._pid = pid;
         else
             throw new Error("El PID no puede ser negativo.");
+        */
+       this._pid = pid;
     }
     /**
      * The name of product.
      * @throws If name is empty or undefined.
      */
     public set name(name: string) {
+        /*
         if (name.length > 0  ||  name != null)
             this._name = name;
         else
             throw new Error("Campo nombre es requerido.");
+        */
+        this._name = name;
     }
     /**
      * It's the name of the platform where the product can play. If the 
@@ -96,6 +103,7 @@ export class Product implements IProduct {
      * @throws If platform string isn't registered in EPlatfoms enum.
      */
     public set platform(platform: (string | undefined)) {
+        /*
         let ok = false;
         for (const p in EPlatforms) {
             if (platform === p)
@@ -107,16 +115,21 @@ export class Product implements IProduct {
         } else {
             throw new Error(`La plataforma ${platform} no es válida o no se encuentra registrada como una plataforma válida.`)
         }
+        */
+        this._platform = platform;
     }
     /**
      * The price of product. Type it with 2 decimals length.
      * @throws If number is less than 0.0 .
      */
     public set price(price: number) {
+        /*
         if (price >= 0.0)
             this._price = price;
         else
             throw new Error("Precio tiene que ser positivo o 0.0 .")
+        */
+        this._price = price;
     }
     /**
      * The description of product. It can be undefined.
@@ -129,10 +142,13 @@ export class Product implements IProduct {
      * @throws If quantity is less than 0.
      */
     public set quantity(quantity: number) {
+        /*
         if (quantity >= 0)
             this._quantity = quantity;
         else
             throw new Error("La cantidad debería ser positiva.");
+        */
+        this._quantity = quantity;
     }
     /**
      * The date when the product was released by the owner.
@@ -143,7 +159,7 @@ export class Product implements IProduct {
 
 
     // CONSTRUCTORS
-    public constructor(pid: number, name: string, price: number, quantity: number, relDate: Date, platform?: string, description?: string) {
+    public constructor(pid: number, name: string, price: number, quantity: number, relDate: Date, platform?: (string | undefined), description?: (string | undefined)) {
         this.pid         = pid;
         this.name        = name;
         this.platform    = platform;
@@ -151,5 +167,19 @@ export class Product implements IProduct {
         this.description = description;
         this.quantity    = quantity;
         this.releaseDate = relDate;
+    }
+
+
+    // FACTORY
+    public static generateProduct(p: IProduct): Product {
+        return new Product(
+            p.pid,
+            p.name,
+            p.price,
+            p.quantity,
+            p.releaseDate,
+            p.platform,
+            p.description
+        );
     }
 }

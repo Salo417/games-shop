@@ -1,13 +1,37 @@
-<ion-card>
+<!-- If data was loaded -->
+<ion-card *ngIf="!isProductEmpty()">
   <ion-card-header>
     <ion-card-title>{{controller.product.name}}</ion-card-title>
   </ion-card-header>
 
   <ion-card-content>
-    Price: {{controller.product.price}}
-    Platfom: {{controller.product.platform}}
+    <p>Price: {{controller.product.price}}</p>
+    <p>Platfom: {{controller.product.platform}}</p>
   </ion-card-content>
 
   <ion-button (click)="edit()">Editar</ion-button>
   <ion-button (click)="delete()">Borrar</ion-button>
+</ion-card>
+
+<!-- If data wasn't loaded -->
+<ion-card *ngIf="isProductEmpty()">
+  <ion-card-header>
+    <ion-card-title><ion-skeleton-text></ion-skeleton-text></ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <p>
+      <ion-skeleton-text></ion-skeleton-text>
+      <span></span>
+      <ion-skeleton-text></ion-skeleton-text>
+    </p>
+    <p>
+      <ion-skeleton-text></ion-skeleton-text>
+      <span></span>
+      <ion-skeleton-text></ion-skeleton-text>
+    </p>
+  </ion-card-content>
+
+  <ion-button><ion-skeleton-text></ion-skeleton-text></ion-button>
+  <ion-button><ion-skeleton-text></ion-skeleton-text></ion-button>
 </ion-card>

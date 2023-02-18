@@ -1,10 +1,11 @@
 /*
- * Created by Salo417 (GitHub/email: schooldayssal@gmail.com). At feb-13-2023.
+ * Created by Salo417 (GitHub/email: schooldayssal@gmail.com). At Feb-13-2023.
  */
 
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ProductController } from '../controllers/ProductController';
 import { IProduct } from '../models/IProduct';
+import { Product } from '../models/Product';
 
 
 @Component({
@@ -16,7 +17,7 @@ export class ProductViewComponent implements OnInit, OnDestroy {
   // COMPONENT COMMUNICATIONS
   @Input()  product: IProduct;
   @Output() delEvent  = new EventEmitter<void>();
-  @Output() editEvent = new EventEmitter<void>();
+  @Output() editEvent = new EventEmitter<Product>();
 
 
   // PROPERTIES
@@ -32,7 +33,9 @@ export class ProductViewComponent implements OnInit, OnDestroy {
 
 
   // LIFECYCLED
-  ngOnInit() {}
+  ngOnInit() {
+    this.controller = new ProductController(this.product);
+  }
 
   ngOnDestroy(): void { this.onDelete(); }
 
@@ -40,7 +43,7 @@ export class ProductViewComponent implements OnInit, OnDestroy {
   // METHODS
   protected edit() {
     //this.onEdit.onSuccess();
-    this.editEvent.emit();
+    this.editEvent.emit( Product.generateProduct(this.controller.product) );
     this.controller.product = this.product;
     /*
     this.onEdit.subscribe( (prod) => {
@@ -57,5 +60,13 @@ export class ProductViewComponent implements OnInit, OnDestroy {
     */
     //this.onDelete();
     this.delEvent.emit();
+  }
+
+  /**
+   * Determine if product controller is empty, because the view blok if is empty.
+   * @returns True if product controller is empty, false if not.
+   */
+  protected isProductEmpty(): boolean {
+    return this.controller == undefined;
   }
 }

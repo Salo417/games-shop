@@ -53,6 +53,9 @@
       </ion-row>
     </ion-grid>
   </div>
+
+  <app-product-view [product]="p1" (editEvent)="edit($event)"></app-product-view>
+  <app-product-view [product]="p2" (editEvent)="edit($event)"></app-product-view>
 </ion-content>
 
 <ion-footer>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { ProductsApiService, Product } from '../core/services/api/products-api.service';
+import { ProductsApiService, Product } from '../../core/services/api/products-api.service';
 
 @Injectable({
   providedIn: 'platform'

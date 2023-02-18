@@ -106,6 +106,20 @@ export class ProductController {
         //this._model = value;
     }
 
+
+    // CONSTRUCTORS
+    public constructor(initProduct: IProduct) {
+        this._model = new Product(
+            initProduct.pid,
+            initProduct.name,
+            initProduct.price,
+            initProduct.quantity,
+            initProduct.releaseDate,
+            initProduct.platform,
+            initProduct.description
+        )
+    }
+
     // METHODS
     //public deleteProduct()
 }

@@ -5,7 +5,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./features/pages/home/home.module').then( m => m.HomePageModule)
   },
   {
     path: '',
@@ -14,27 +14,27 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./features/pages/login/login.module').then( m => m.LoginPageModule)
   },
   {
     path: 'profile',
-    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
+    loadChildren: () => import('./features/pages/profile/profile.module').then( m => m.ProfilePageModule)
   },
   {
     path: 'bill',
-    loadChildren: () => import('./pages/bill/bill.module').then( m => m.BillPageModule)
+    loadChildren: () => import('./features/pages/bill/bill.module').then( m => m.BillPageModule)
   },
   {
     path: 'hired-services',
-    loadChildren: () => import('./pages/hired-services/hired-services.module').then( m => m.HiredServicesPageModule)
+    loadChildren: () => import('./features/pages/hired-services/hired-services.module').then( m => m.HiredServicesPageModule)
   },
   {
     path: 'energy-consumtion',
-    loadChildren: () => import('./pages/energy-consumtion/energy-consumtion.module').then( m => m.EnergyConsumtionPageModule)
+    loadChildren: () => import('./features/pages/energy-consumtion/energy-consumtion.module').then( m => m.EnergyConsumtionPageModule)
   },
   {
     path: 'sign-up',
-    loadChildren: () => import('./pages/sign-up/sign-up.module').then( m => m.SignUpPageModule)
+    loadChildren: () => import('./features/pages/sign-up/sign-up.module').then( m => m.SignUpPageModule)
   }
 ];
 

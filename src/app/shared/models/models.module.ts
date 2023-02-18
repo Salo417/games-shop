@@ -10,6 +10,7 @@ import { IonicModule } from '@ionic/angular';
   imports: [
     CommonModule,
     IonicModule
-  ]
+  ],
+  exports: [ProductViewComponent]
 })
 export class ModelsModule { }
