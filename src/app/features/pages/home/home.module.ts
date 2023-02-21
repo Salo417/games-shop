@@ -7,8 +7,8 @@ import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { SwiperModule } from 'swiper/angular';
-import { ProductsService } from 'src/app/features/services/products.service';
-import { ModelsModule } from 'src/app/shared/models/models.module';
+import { ProductsService } from 'src/app/features/services/product-service/products.service';
+import { ProductsModule } from 'src/app/shared/models/products/products.module';
 
 
 @NgModule({
@@ -18,7 +18,7 @@ import { ModelsModule } from 'src/app/shared/models/models.module';
     IonicModule,
     HomePageRoutingModule,
     SwiperModule,
-    ModelsModule
+    ProductsModule
   ],
   declarations: [HomePage],
   providers: [ProductsService]

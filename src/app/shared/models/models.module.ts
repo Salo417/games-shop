@@ -6,11 +6,11 @@ import { IonicModule } from '@ionic/angular';
 
 
 @NgModule({
-  declarations: [ProductViewComponent],
+  declarations: [],
   imports: [
     CommonModule,
     IonicModule
   ],
-  exports: [ProductViewComponent]
+  exports: []
 })
 export class ModelsModule { }

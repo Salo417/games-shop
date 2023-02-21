@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { IProduct } from 'src/app/shared/models/products/models/IProduct';
+import { Product } from 'src/app/shared/models/products/models/Product';
 import { UserLogedService } from './user-loged.service';
 
 
@@ -13,7 +15,7 @@ export enum Platforms {
   PC             = 'PC'
 }
 
-export class Product {
+export class ApiProduct {
   id: number;
   name: string;
   platform: ( Platforms | string );
@@ -62,6 +64,36 @@ export class ProductsApiService {
       'Accept': 'application/json'
     });
 
-    return this.http.get<Product[]>(ProductsApiService.FULL_API_URL, { headers, responseType: 'json' });
+    return this.http.get<any>(ProductsApiService.FULL_API_URL, { headers, responseType: 'json' })
+      .pipe( map<any, Product[]>( (response, index) => {
+        let lProduct: Product[] = [];
+
+        for (let o of response.data) {
+          lProduct.push(new Product(
+            o.id, 
+            o.attributes.name,
+            o.attributes.price,
+            o.attributes.quantity,
+            new Date(o.attributes.release_date),
+            o.attributes.platform,
+            o.attributes.description
+          ));
+
+        }
+        
+        return lProduct;
+      }));
+  }
+
+  public get restProductConne() {
+    ProductsApiService.AUTH_API.JWT = sessionStorage.getItem("jwt");
+    const headers = new HttpHeaders({ 
+      'Authorization': `Bearer ${ProductsApiService.AUTH_API.JWT}`,
+      'Content-Type': 'application/json; charset=utf-8',
+      'Accept': 'application/json'
+    });
+
+    return this.http;
+    //get<Product[]>(ProductsApiService.FULL_API_URL, { headers, responseType: 'json' });
   }
 }

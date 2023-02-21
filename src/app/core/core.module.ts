@@ -1,7 +1,7 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserLogedService } from './services/api/user-loged.service';
-import { ProductsApiService } from './services/api/products-api.service';
+import { UserLogedService } from './services/connections/user-loged.service';
+import { ProductsApiService } from './services/connections/products-api.service';
 
 
 

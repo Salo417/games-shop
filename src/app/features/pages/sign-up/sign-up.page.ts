@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common'
 import { AlertController, IonInput } from '@ionic/angular';
-import { UserLogedService } from 'src/app/core/services/api/user-loged.service';
+import { UserLogedService } from 'src/app/core/services/connections/user-loged.service';
 import { FormControl } from '@angular/forms';
 import { IUser } from 'src/app/core/classes/IUser';
 

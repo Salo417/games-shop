@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { UserLogedService } from 'src/app/core/services/api/user-loged.service';
+import { UserLogedService } from 'src/app/core/services/connections/user-loged.service';
 
 @Component({
   selector: 'app-login',

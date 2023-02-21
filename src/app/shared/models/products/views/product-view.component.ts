@@ -16,7 +16,7 @@ import { Product } from '../models/Product';
 export class ProductViewComponent implements OnInit, OnDestroy {
   // COMPONENT COMMUNICATIONS
   @Input()  product: IProduct;
-  @Output() delEvent  = new EventEmitter<void>();
+  @Output() delEvent  = new EventEmitter<Product>();
   @Output() editEvent = new EventEmitter<Product>();
 
 
@@ -59,7 +59,7 @@ export class ProductViewComponent implements OnInit, OnDestroy {
     })
     */
     //this.onDelete();
-    this.delEvent.emit();
+    this.delEvent.emit( Product.generateProduct(this.controller.product) );
   }
 
   /**
