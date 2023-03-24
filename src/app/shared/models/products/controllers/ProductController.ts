@@ -4,7 +4,6 @@
 
 import { IProduct } from "../models/IProduct";
 import { Product } from "../models/Product";
-//import { ProductView } from "../views/ProductView";
 
 export class ProductController {
     // PROPERTIES

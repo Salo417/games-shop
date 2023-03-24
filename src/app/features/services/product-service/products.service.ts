@@ -17,12 +17,12 @@ export class ProductsService /*implements Dao<IProduct>*/ {
     let products: Product[];
 
     await lastValueFrom( this.productApi.getAllProducts() )
-    .then( listProduct => {
-      products = listProduct;
-    })
-    .catch( err => {
-      console.error(err);
-    });
+      .then( listProduct => {
+        products = listProduct;
+      })
+      .catch( err => {
+        console.error(err);
+      });
 
     return products;
   }

@@ -34,12 +34,10 @@ export class HomePage {
     releaseDate: new Date( Date.now() )
   }
 
-  constructor(private productService: ProductsService) {
-    this.productService.getAll();
-  }
+  constructor(private productService: ProductsService) {}
 
   listProducts() {
-    this.productService.getAllProducts();
+    //this.productService.getAllProducts();
   }
 
   edit(p?: IProduct | undefined) {

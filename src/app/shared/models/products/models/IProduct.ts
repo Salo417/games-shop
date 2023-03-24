@@ -3,11 +3,11 @@
  */
 
 export interface IProduct {
-    pid:          number;
-    name:         string;
-    platform?:    string;
-    price:        number;
-    description?: string;
-    quantity:     number;
-    releaseDate:  Date;
+    pid?:          number;
+    name:          string;
+    platform?:     string;
+    price:         number;
+    description?:  string;
+    quantity:      number;
+    releaseDate:   Date;
 }

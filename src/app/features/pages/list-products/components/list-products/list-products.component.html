@@ -1,0 +1,16 @@
+<app-product-view 
+  *ngFor="let p of listOfProducts" 
+  [product]="p" 
+  (editEvent)="edit($event)" 
+  (delEvent)="delete($event)">
+</app-product-view>
+
+<ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+  <ion-infinite-scroll-content></ion-infinite-scroll-content>
+</ion-infinite-scroll>
+
+<ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab-button routerLink="../add-product">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
