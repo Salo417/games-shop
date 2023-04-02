@@ -1,12 +1,23 @@
 <ion-list>
     <ion-item>
-        <ion-label>Nombre del producto: </ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-label>Nombre del producto*: </ion-label>
+        <ion-input 
+            id="i-product-name" 
+            type="text" 
+            maxlength="15"
+            required
+            errorText="Error"
+            [(ngModel)]="product.name" 
+            (ngModelChange)="customOnChange($event)">
+        </ion-input>
     </ion-item>
 
     <ion-item>
         <ion-label>Plataforma: </ion-label>
-        <ion-select placeholder="Seleccionar">
+        <ion-select 
+            id="i-platform" 
+            placeholder="Seleccionar"
+            >
             <ion-select-option value="EPlatforms.PLAY_STATION_4">PlayStation 4</ion-select-option>
             <ion-select-option value="EPlatforms.PLAY_STATION_5">PlayStation 5</ion-select-option>
             <ion-select-option value="EPlatforms.XBOX_360">Xbox 360</ion-select-option>
@@ -17,22 +28,55 @@
     </ion-item>
 
     <ion-item>
-        <ion-label>Precio: </ion-label>
-        <ion-input type="number"></ion-input>
+        <ion-label>Precio*: </ion-label>
+        <ion-input 
+            id="i-price" 
+            type="number" 
+            min="0"
+            max="999.99"
+            errorText="Error"
+            [(ngModel)]="product.price" 
+            (ngModelChange)="customOnChange($event)">
+        </ion-input>
     </ion-item>
 
     <ion-item>
-        <ion-label>Fecha de lanzamiento: </ion-label>
-        <ion-input type="date"></ion-input>
+        <ion-label>Fecha de lanzamiento*: </ion-label>
+        <ion-input 
+            id="i-releas-date" 
+            type="date" 
+            placeholder="dd/mm/aaaa"
+            required
+            errorText="Error"
+            [(ngModel)]="product.releaseDate" 
+            (ngModelChange)="customOnChange($event)">
+        </ion-input>
     </ion-item>
 
     <ion-item>
-        <ion-label>Stock: </ion-label>
-        <ion-input type="number"></ion-input>
+        <ion-label>Stock*: </ion-label>
+        <ion-input 
+            id="i-stock" 
+            type="number" 
+            errorText="Error"
+            [(ngModel)]="product.quantity" 
+            (ngModelChange)="customOnChange($event)">
+        </ion-input>
     </ion-item>
 
     <ion-item id="description">
         <ion-label>Descripción: </ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input 
+            id="i-description" 
+            type="text" 
+            counter
+            maxlength="200"
+            errorText="Error"
+            [(ngModel)]="product.description" 
+            (ngModelChange)="customOnChange($event)">
+        </ion-input>
     </ion-item>
+
+    <ion-button [disabled]="form.invalid" (click)="addProduct()">Añadir</ion-button>
+    <ion-button (click)="mostrarProducto()">Mostrar</ion-button>
 </ion-list>
