@@ -20,10 +20,11 @@ export class AddProductComponent implements OnInit, OnChanges {
   @ViewChild('i-description')  description: IonInput;
   */
 
-  protected product: IProduct = {
+  protected platforms = Object.values(EPlatforms);
+  protected product = {
     name:        '',
     platform:    '',
-    price:       0.0,
+    price:       0.00,
     description: '',
     quantity:    0,
     releaseDate: undefined
@@ -31,7 +32,7 @@ export class AddProductComponent implements OnInit, OnChanges {
   protected form = new FormGroup<ProductForms>({
     name:        new FormControl(this.product.name,        [Validators.required]),
     platform:    new FormControl(this.product.platform),
-    price:       new FormControl(this.product.price,       [Validators.required, Validators.min(0)]),
+    price:       new FormControl(this.product.price/*Number( this.product.price.replace(',', '.') )*/,       [Validators.required, Validators.min(0)]),
     releaseDate: new FormControl(this.product.releaseDate, Validators.required),
     quantity:    new FormControl(this.product.quantity,    [Validators.required, Validators.min(0)]),
     description: new FormControl(this.product.description, Validators.maxLength(200))
@@ -46,7 +47,7 @@ export class AddProductComponent implements OnInit, OnChanges {
       .setValue({
         name: this.product.name,
         platform: this.product.platform,
-        price: this.product.price,
+        price: this.product.price/*Number( this.product.price.replace(',', '.') )*/,
         releaseDate: this.product.releaseDate,
         quantity: this.product.quantity,
         description: this.product.description
@@ -73,17 +74,15 @@ export class AddProductComponent implements OnInit, OnChanges {
     console.log(this.form.getRawValue());
   }
 
-  customOnChange(event: any) {
+  customOnChange(event: any, component: IonInput) {
     console.log('Cambios detectados en ngModel.');
-    this.form
-      .setValue({
-        name: this.product.name,
-        platform: this.product.platform,
-        price: this.product.price,
-        releaseDate: this.product.releaseDate,
-        quantity: this.product.quantity,
-        description: this.product.description
-      });
+    console.log( event );
+    //(event as string).replace(',', '.');
+    //event = Math.floor(Number(event) * 100) /100;
+    this.product.price = Math.floor(event * 100) /100; //String(Math.floor(Number( (event as string).replace(',', '.') ) * 100) /100).replace('.', ',');
+    component.value = this.product.price;
+    //this.product.price = Math.floor(event * 100) /100;
+    //this.refreshForm();
       /*
       .get(['name', 'platform', 'price', 'releaseDate', 'quantity', 'description'])
       .setValue({
@@ -95,6 +94,18 @@ export class AddProductComponent implements OnInit, OnChanges {
      console.log('El formulario a cambiado a: ');
      console.log(this.form.getRawValue());
      console.log(this.form.valid);
+  }
+
+  refreshForm() {
+    this.form
+    .setValue({
+      name: this.product.name,
+      platform: this.product.platform,
+      price: this.product.price/*Number( this.product.price.replace(',', '.') )*/,
+      releaseDate: this.product.releaseDate,
+      quantity: this.product.quantity,
+      description: this.product.description
+    });
   }
 
   addProduct() {

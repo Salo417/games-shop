@@ -31,12 +31,6 @@ export class ApiProduct {
 export class ProductsApiService {
   private static instantied: boolean = false;
 
-  /* El problema de esto es que este servicio se carga al inicio del programa, por lo que todavia no se a logeado.
-   * Como predije este servicio deberia ser de hambito local, es decir que se cargue al inicializar el modulo donde
-   * se requiera este servicio y se cierra cuando no sea necesario. Eso si que sea de hambito local no quiero decir
-   * que deba de dejar de ser singleton. Investigar como crear un servicio singleton que se cargue despues, quizas lazy
-   * y donde guardarlo?
-   */
   private static /*readonly*/ AUTH_API = {
     DOM:      'localhost',
     ENDP_URL: '/api/products',
@@ -50,7 +44,7 @@ export class ProductsApiService {
     private http: HttpClient
   ) { 
     if (ProductsApiService.instantied) {
-      throw new Error('Service ProductsApiService is created yet, you only can create 1 instance of this service.')
+      throw new Error('Service ProductsApiService is created yet, you can only create 1 instance of this service.')
     }
 
     ProductsApiService.instantied = true;

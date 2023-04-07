@@ -1,4 +1,6 @@
+
 <ion-list>
+    <!--
     <ion-item>
         <ion-label>Nombre del producto*: </ion-label>
         <ion-input 
@@ -17,29 +19,44 @@
         <ion-select 
             id="i-platform" 
             placeholder="Seleccionar"
+            required
             >
-            <ion-select-option value="EPlatforms.PLAY_STATION_4">PlayStation 4</ion-select-option>
-            <ion-select-option value="EPlatforms.PLAY_STATION_5">PlayStation 5</ion-select-option>
-            <ion-select-option value="EPlatforms.XBOX_360">Xbox 360</ion-select-option>
-            <ion-select-option value="EPlatforms.XBOX_ONE">Xbox One</ion-select-option>
-            <ion-select-option value="EPlatforms.SWITCH">Nintendo Switch</ion-select-option>
-            <ion-select-option value="EPlatforms.PC">PC</ion-select-option>
+            <ion-select-option *ngFor="let platformValue of platforms" [value]="platformValue">{{platformValue}}</ion-select-option>
         </ion-select>
     </ion-item>
+-->
 
+<!--
     <ion-item>
         <ion-label>Precio*: </ion-label>
         <ion-input 
             id="i-price" 
+            #price
+            type="text" 
+            errorText="Error"
+            [(ngModel)]="product.price" 
+            (ngModelChange)="customOnChange($event, price)">
+        </ion-input>
+    </ion-item>
+-->
+
+    <!--    RECORD ANTERIOR PRECIO -->
+            <ion-item>
+        <ion-label>Precio*: </ion-label>
+        <ion-input 
+            id="i-price" 
+            #price
             type="number" 
             min="0"
             max="999.99"
+            placeholder="0.00"
             errorText="Error"
             [(ngModel)]="product.price" 
-            (ngModelChange)="customOnChange($event)">
+            (ngModelChange)="customOnChange($event, price)">
         </ion-input>
     </ion-item>
 
+    <!--
     <ion-item>
         <ion-label>Fecha de lanzamiento*: </ion-label>
         <ion-input 
@@ -76,6 +93,7 @@
             (ngModelChange)="customOnChange($event)">
         </ion-input>
     </ion-item>
+-->
 
     <ion-button [disabled]="form.invalid" (click)="addProduct()">Añadir</ion-button>
     <ion-button (click)="mostrarProducto()">Mostrar</ion-button>

@@ -1,0 +1,3 @@
+El probelma de que los servicios sean singletons esta casi arreglado,
+pero estaria bien cambiar todos los servicios de APIs por un solo servicio
+el cual indicas a cual API deseas conectarte y este servicio devuelve la conexion.
