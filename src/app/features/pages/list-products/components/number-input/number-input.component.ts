@@ -1,6 +1,6 @@
 import { CurrencyPipe } from "@angular/common";
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
-import { LocaleService } from 'src/app/core';
+//import { LocaleService } from 'src/app/core';
 import { IonInput } from "@ionic/angular";
 
 @Component({
@@ -26,7 +26,7 @@ export class NumberInputComponent implements OnInit {
   @Output() amountEntered = new EventEmitter<number>();
 
   constructor(private currencyPipe: CurrencyPipe,
-    private locale:LocaleService) { }
+    /*private locale:LocaleService*/) { }
 
   ngOnInit() {
     if (this.amount && this.amount.trim() !== '') {
@@ -72,7 +72,7 @@ export class NumberInputComponent implements OnInit {
   }
 
   get formattedAmount(): string {
-    return this.currencyPipe.transform(+this._amount / Math.pow(10, this.precision),'EUR', 'symbol', undefined, this.locale.locale);
+    return this.currencyPipe.transform(+this._amount / Math.pow(10, this.precision),'EUR', 'symbol', undefined/*, this.locale.locale*/);
   }
 
   openInput() {
