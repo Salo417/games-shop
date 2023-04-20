@@ -18,7 +18,9 @@
         <ion-select 
             id="i-platform" 
             placeholder="Seleccionar"
-            required>
+            required
+            [(ngModel)]="product.platform"
+            (ngModelChange)="readData()">
             <ion-select-option *ngFor="let platformValue of platforms" [value]="platformValue">{{platformValue}}</ion-select-option>
         </ion-select>
     </ion-item>
@@ -95,3 +97,12 @@
     <ion-button [disabled]="form.invalid" (click)="addProduct()">Añadir</ion-button>
     <ion-button (click)="mostrarProducto()">Mostrar</ion-button>
 </ion-list>
+
+<!--
+ Created by Salo417 (GitHub/email: schooldayssal@gmail.com)  on Apr-13-2023.
+ This source code is governed by:
+  
+ BSD 3-Clause License (That can be found in LICENCE file)
+ 
+ Copyright (c) 2023, Salo417 (GitHub/email: schooldayssal@gmail.com)
+-->

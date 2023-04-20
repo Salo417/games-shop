@@ -3,11 +3,12 @@ import { lastValueFrom } from 'rxjs';
 import { IProduct } from 'src/app/shared/models/products/models/IProduct';
 import { Product } from 'src/app/shared/models/products/models/Product';
 import { ProductsApiService } from '../../../core/services/connections/products-api.service';
+import { Dao } from 'src/app/shared/api/Dao';
 
 @Injectable({
   providedIn: 'platform'
 })
-export class ProductsService /*implements Dao<IProduct>*/ {
+export class ProductsService implements Dao<IProduct> {
 
   constructor(private productApi: ProductsApiService) {}
 
@@ -30,9 +31,20 @@ export class ProductsService /*implements Dao<IProduct>*/ {
   getById(id: number): IProduct {
     throw new Error('Method not implemented.');
   }
-  save(t: IProduct) {
-    throw new Error('Method not implemented.');
+
+  async save(...product: IProduct[]): Promise<void> {
+
+    product.forEach( async (value, index, array) => {
+      console.debug('Starting connection to server...');
+      await lastValueFrom( this.productApi.postProduct(value) )
+        .then( (value) => { })
+        .catch( (reason) => {
+          throw new Error(reason);
+        });
+    });
+
   }
+
   update(t: IProduct, params: string[]) {
     throw new Error('Method not implemented.');
   }

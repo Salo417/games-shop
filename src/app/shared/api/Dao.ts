@@ -6,7 +6,7 @@ export interface Dao<T> {
     
     getById(id: number): T;
     
-    getAll(): Iterable<(T | [any, T])>;
+    getAll(): Iterable<T | [any, T]> | Promise< T | Iterable<T | [any, T]> >;
     
     save(t: T);
     

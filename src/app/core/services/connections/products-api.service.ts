@@ -79,12 +79,32 @@ export class ProductsApiService {
       }));
   }
 
+  public postProduct(product: IProduct): Observable<Object> {
+    ProductsApiService.AUTH_API.JWT = sessionStorage.getItem("jwt");    // Quizas a mejorar el jwt quizas poniendolo en una var static independiente o poner en constructor
+    let prd = {
+      name:         product.name,
+      platform:     product.platform,
+      price:        product.price,
+      release_date: product.releaseDate,
+      description:  product.description,
+      quantity:     product.quantity
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${ProductsApiService.AUTH_API.JWT}`,
+      'Content-Type': 'application/json; charset=utf-8',
+      'Accept': 'application/json'
+    });
+
+    return this.http.post(ProductsApiService.FULL_API_URL, JSON.stringify({data: prd}), { headers, responseType: 'json'});
+  }
+
   public get restProductConne() {
     ProductsApiService.AUTH_API.JWT = sessionStorage.getItem("jwt");
     const headers = new HttpHeaders({ 
       'Authorization': `Bearer ${ProductsApiService.AUTH_API.JWT}`,
       'Content-Type': 'application/json; charset=utf-8',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Connection': 'keep-alive'
     });
 
     return this.http;

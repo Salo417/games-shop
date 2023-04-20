@@ -5,6 +5,8 @@ import { IProduct } from 'src/app/shared/models/products/models/IProduct';
 import { ProductForms } from './classes/ProductForm';
 import { IonInput } from '@ionic/angular';
 import { DecimalValidator } from './directives/decimal-validator.directive';
+import { ProductsService } from 'src/app/features/services/product-service/products.service';
+import { Product } from 'src/app/shared/models/products/models/Product';
 
 @Component({
   selector: 'app-add-product',
@@ -45,7 +47,7 @@ export class AddProductComponent implements OnInit, OnChanges {
   });
 
   
-  constructor() {} 
+  constructor(private productService: ProductsService) {} 
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('Cambios detectados.');
@@ -81,7 +83,7 @@ export class AddProductComponent implements OnInit, OnChanges {
   }
 
   customOnChange(event: any, component: IonInput) {
-    console.log('Cambios detectados en ngModel.');
+    console.log('CustomOnChanges.');
     console.log( event );
     //let n = Number( (event as string).replace(',', '.') );
     //let n = String( Math.floor(Number( (event as string).replace(',', '.') ) * 100 / 100) ).split('.'); //.replace('.', ',');
@@ -123,19 +125,51 @@ export class AddProductComponent implements OnInit, OnChanges {
   }
 
   refreshForm() {
+    let relsDate: (string | Date | undefined);
+
+    if (typeof(this.product.releaseDate) === 'string') {
+      relsDate = new Date(this.product.releaseDate);
+    } else if (typeof(this.product.releaseDate) === 'object'  &&  Object.prototype.toString.call(this.product.releaseDate) === '[object Date]') {
+      relsDate = this.product.releaseDate;
+    }
+
     this.form
-    .setValue({
-      name:        this.product.name,
-      platform:    this.product.platform,
-      price:       Number( this.product.price.replace(',', '.') ),
-      releaseDate: this.product.releaseDate,
-      quantity:    this.product.quantity,
-      description: this.product.description
-    });
+      .setValue({
+        name:        this.product.name,
+        platform:    this.product.platform,
+        price:       Number( this.product.price.replace(',', '.') ),
+        releaseDate: relsDate,
+        quantity:    this.product.quantity,
+        description: this.product.description
+      });
   }
 
   addProduct() {
     alert(`Tu producto ${this.product.name} va a ser agregado a la base de datos del backend de la Salo Shop. (Texto provisional no se guarda en el backend).`);
+    this.productService.save( new Product(
+      undefined, 
+      this.form.get('name').value, 
+      this.form.get('price').value, 
+      this.form.get('quantity').value, 
+      (this.form.get('releaseDate').value as Date), 
+      this.form.get('platform').value, 
+      this.form.get('description').value
+    ))
+      .then( () => {
+        console.debug('Producto añadido correctamente.');
+      })
+      .catch( (reason) => {
+        console.debug(`Ha ocurrido un error inesperado:\n${reason}`);
+      });
   }
 
 }
+
+/*
+ * Created by Salo417 (GitHub/email: schooldayssal@gmail.com) on Apr-13-2023.
+ * This source code is governed by:
+ * 
+ * BSD 3-Clause License (That can be found in LICENCE file)
+ *
+ * Copyright (c) 2023, Salo417 (GitHub/email: schooldayssal@gmail.com)
+ */

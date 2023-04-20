@@ -30,3 +30,11 @@ import { DecimalValidator } from './components/add-product/directives/decimal-va
   providers: [ProductsService]
 })
 export class ListProductsPageModule {}
+
+/*
+ * Created by Salo417 (GitHub/email: schooldayssal@gmail.com) at Apr-13-2023 following above clause:
+ * 
+ * BSD 3-Clause License (Read LICENCE file)
+ *
+ * Copyright (c) 2023, Salo417 (GitHub/email: schooldayssal@gmail.com)
+ */
