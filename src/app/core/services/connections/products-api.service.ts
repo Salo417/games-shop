@@ -98,6 +98,17 @@ export class ProductsApiService {
     return this.http.post(ProductsApiService.FULL_API_URL, JSON.stringify({data: prd}), { headers, responseType: 'json'});
   }
 
+  public deleteProduct(id: number) {
+    ProductsApiService.AUTH_API.JWT = sessionStorage.getItem("jwt");    // Quizas a mejorar el jwt quizas poniendolo en una var static independiente o poner en constructor
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${ProductsApiService.AUTH_API.JWT}`,
+      'Content-Type': 'application/json; charset=utf-8',
+      'Accept': 'application/json'
+    });
+
+    return this.http.delete(ProductsApiService.FULL_API_URL, { headers, responseType: "json" });
+  }
+
   public get restProductConne() {
     ProductsApiService.AUTH_API.JWT = sessionStorage.getItem("jwt");
     const headers = new HttpHeaders({ 

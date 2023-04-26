@@ -1,13 +1,17 @@
 import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
-import { SwiperComponent } from 'swiper/angular';
+//import { SwiperComponent } from 'swiper/angular';
+
 import SwiperCore, { Navigation } from 'swiper';
 import { ProductsService } from 'src/app/features/services/product-service/products.service';
 import { IProduct } from 'src/app/shared/models/products/models/IProduct';
 import { ProductViewComponent } from 'src/app/shared/models/products/views/product-view.component';
 import { EPlatforms } from 'src/app/shared/models/products/models/EPlatforms';
+import { register } from 'swiper/element/bundle';
 
 
 SwiperCore.use([Navigation]);
+
+register();
 
 @Component({
   selector: 'app-home',

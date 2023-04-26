@@ -2,8 +2,6 @@
  * Created by Salo417 (GitHub/email: schooldayssal@gmail.com). At feb-13-2023.
  */
 
-import { isArraysEqual } from "@fullcalendar/angular";
-import { range } from "rxjs";
 import { IProduct } from "./IProduct";
 
 

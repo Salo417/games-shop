@@ -6,7 +6,7 @@ import { ProductsApiService } from '../../../core/services/connections/products-
 import { Dao } from 'src/app/shared/api/Dao';
 
 @Injectable({
-  providedIn: 'platform'
+  providedIn: "platform"
 })
 export class ProductsService implements Dao<IProduct> {
 
