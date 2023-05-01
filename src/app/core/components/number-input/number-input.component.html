@@ -1,0 +1,5 @@
+<ion-item lines="none" (click)="openInput()">
+  <div style="font-size:24px">{{ formattedAmount }}</div>
+  <ion-input name="dummyFacade" id="dummyFacade" #dummyFacade type="number" inputmode="numeric"
+      (keyup)="handleKeyUp($event)" (ionInput)="handleInput($event)" text-center></ion-input>
+</ion-item>

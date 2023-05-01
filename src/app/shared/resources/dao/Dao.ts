@@ -6,11 +6,11 @@ export interface Dao<T> {
     
     getById(id: number): T;
     
-    getAll(): Iterable<(T | [any, T])>;
+    getAll(): Iterable<T | [any, T]> | Promise< T | Iterable<T | [any, T]> >;
     
     save(t: T);
     
-    update(t: T, params: string[]);
+    update(t: (T | number), params: string[]);
     
-    delete(t: T);
+    delete(t: (T | number));
 }

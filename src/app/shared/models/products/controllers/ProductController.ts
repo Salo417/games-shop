@@ -2,7 +2,7 @@
  * Created by Salo417 (GitHub/email: schooldayssal@gmail.com). At feb-13-2023.
  */
 
-import { IProduct } from "../models/IProduct";
+import { IProduct } from "../../../resources/product/IProduct";
 import { Product } from "../models/Product";
 
 export class ProductController {

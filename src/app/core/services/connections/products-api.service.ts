@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { IProduct } from 'src/app/shared/models/products/models/IProduct';
+import { IProduct } from 'src/app/shared/resources/product/IProduct';
 import { Product } from 'src/app/shared/models/products/models/Product';
 import { UserLogedService } from './user-loged.service';
 
@@ -31,12 +31,6 @@ export class ApiProduct {
 export class ProductsApiService {
   private static instantied: boolean = false;
 
-  /* El problema de esto es que este servicio se carga al inicio del programa, por lo que todavia no se a logeado.
-   * Como predije este servicio deberia ser de hambito local, es decir que se cargue al inicializar el modulo donde
-   * se requiera este servicio y se cierra cuando no sea necesario. Eso si que sea de hambito local no quiero decir
-   * que deba de dejar de ser singleton. Investigar como crear un servicio singleton que se cargue despues, quizas lazy
-   * y donde guardarlo?
-   */
   private static /*readonly*/ AUTH_API = {
     DOM:      'localhost',
     ENDP_URL: '/api/products',
@@ -50,7 +44,7 @@ export class ProductsApiService {
     private http: HttpClient
   ) { 
     if (ProductsApiService.instantied) {
-      throw new Error('Service ProductsApiService is created yet, you only can create 1 instance of this service.')
+      throw new Error('Service ProductsApiService is created yet, you can only create 1 instance of this service.')
     }
 
     ProductsApiService.instantied = true;
@@ -85,12 +79,47 @@ export class ProductsApiService {
       }));
   }
 
+  public postProduct(product: IProduct): Observable<Object> {
+    ProductsApiService.AUTH_API.JWT = sessionStorage.getItem("jwt");    // Quizas a mejorar el jwt quizas poniendolo en una var static independiente o poner en constructor
+    let prd = {
+      name:         product.name,
+      platform:     product.platform,
+      price:        product.price,
+      release_date: product.releaseDate,
+      description:  product.description,
+      quantity:     product.quantity
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${ProductsApiService.AUTH_API.JWT}`,
+      'Content-Type': 'application/json; charset=utf-8',
+      'Accept': 'application/json'
+    });
+
+    return this.http.post(ProductsApiService.FULL_API_URL, JSON.stringify({data: prd}), { headers, responseType: 'json'});
+  }
+
+  public deleteProduct(id: number) {
+    ProductsApiService.AUTH_API.JWT = sessionStorage.getItem("jwt");    // Quizas a mejorar el jwt quizas poniendolo en una var static independiente o poner en constructor
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${ProductsApiService.AUTH_API.JWT}`,
+      'Content-Type': 'application/json; charset=utf-8',
+      'Accept': 'application/json'
+    });
+
+    return this.http.delete(ProductsApiService.FULL_API_URL, { headers, responseType: "json" });
+  }
+
+  public updateProduct(product: IProduct) {
+
+  }
+
   public get restProductConne() {
     ProductsApiService.AUTH_API.JWT = sessionStorage.getItem("jwt");
     const headers = new HttpHeaders({ 
       'Authorization': `Bearer ${ProductsApiService.AUTH_API.JWT}`,
       'Content-Type': 'application/json; charset=utf-8',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Connection': 'keep-alive'
     });
 
     return this.http;

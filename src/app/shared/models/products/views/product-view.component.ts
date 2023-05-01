@@ -4,7 +4,7 @@
 
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ProductController } from '../controllers/ProductController';
-import { IProduct } from '../models/IProduct';
+import { IProduct } from '../../../resources/product/IProduct';
 import { Product } from '../models/Product';
 
 

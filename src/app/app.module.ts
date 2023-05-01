@@ -6,16 +6,18 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import dayGridPlugin from '@fullcalendar/daygrid';
+//import { FullCalendarModule } from '@fullcalendar/angular';
+//import dayGridPlugin from '@fullcalendar/daygrid';
 import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
 //import interactionPlugin from '@fullcalendar/interaction';
 
 
+/*
 FullCalendarModule.registerPlugins([
   dayGridPlugin
 ]);
+*/
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +26,7 @@ FullCalendarModule.registerPlugins([
     HttpClientModule,
     IonicModule.forRoot(), 
     AppRoutingModule,
-    FullCalendarModule,
+    //FullCalendarModule,
     CoreModule.forRoot()
   ],
   providers: [ { provide: RouteReuseStrategy, useClass: IonicRouteStrategy } ],

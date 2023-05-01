@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { IUser } from 'src/app/core/classes/IUser';
 import { Observable, throwError, lastValueFrom } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { HttpClient, HttpContext, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { HttpParams } from '@capacitor/core';
+import { HttpClient, HttpContext, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 
 
 export class User implements IUser {

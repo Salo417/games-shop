@@ -1,38 +1,108 @@
+
 <ion-list>
     <ion-item>
-        <ion-label>Nombre del producto: </ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-label>Nombre del producto*: </ion-label>
+        <ion-input 
+            id="i-product-name" 
+            type="text" 
+            maxlength="15"
+            required
+            errorText="Error"
+            [(ngModel)]="product.name" 
+            (ngModelChange)="readData()">
+        </ion-input>
     </ion-item>
 
     <ion-item>
         <ion-label>Plataforma: </ion-label>
-        <ion-select placeholder="Seleccionar">
-            <ion-select-option value="EPlatforms.PLAY_STATION_4">PlayStation 4</ion-select-option>
-            <ion-select-option value="EPlatforms.PLAY_STATION_5">PlayStation 5</ion-select-option>
-            <ion-select-option value="EPlatforms.XBOX_360">Xbox 360</ion-select-option>
-            <ion-select-option value="EPlatforms.XBOX_ONE">Xbox One</ion-select-option>
-            <ion-select-option value="EPlatforms.SWITCH">Nintendo Switch</ion-select-option>
-            <ion-select-option value="EPlatforms.PC">PC</ion-select-option>
+        <ion-select 
+            id="i-platform" 
+            placeholder="Seleccionar"
+            required
+            [(ngModel)]="product.platform"
+            (ngModelChange)="readData()">
+            <ion-select-option *ngFor="let platformValue of platforms" [value]="platformValue">{{platformValue}}</ion-select-option>
         </ion-select>
     </ion-item>
 
+    
     <ion-item>
-        <ion-label>Precio: </ion-label>
-        <ion-input type="number"></ion-input>
+        <ion-label>Precio (€)*: </ion-label>
+        <ion-input 
+            id="i-price" 
+            #price
+            type="text" 
+            errorText="Error"
+            (keyup.enter)="customOnChange($event, price)"
+            (click)="customOnChange($event, price)"
+            [(ngModel)]="product.price"
+            (ngModelChange)="readData()">
+        </ion-input>
+    </ion-item>
+
+    <!--    RECORD ANTERIOR PRECIO 
+            <ion-item>
+        <ion-label>Precio*: </ion-label>
+        <ion-input 
+            id="i-price" 
+            #price
+            type="number" 
+            min="0"
+            max="999.99"
+            placeholder="0.00"
+            errorText="Error"
+            [(ngModel)]="product.price" 
+            (ngModelChange)="customOnChange($event, price)">
+        </ion-input>
+    </ion-item>
+-->
+
+    <ion-item>
+        <ion-label>Fecha de lanzamiento*: </ion-label>
+        <ion-input 
+            id="i-releas-date" 
+            type="date" 
+            placeholder="dd/mm/aaaa"
+            required
+            errorText="Error"
+            [(ngModel)]="product.releaseDate" 
+            (ngModelChange)="readData()">
+        </ion-input>
     </ion-item>
 
     <ion-item>
-        <ion-label>Fecha de lanzamiento: </ion-label>
-        <ion-input type="date"></ion-input>
-    </ion-item>
-
-    <ion-item>
-        <ion-label>Stock: </ion-label>
-        <ion-input type="number"></ion-input>
+        <ion-label>Stock*: </ion-label>
+        <ion-input 
+            id="i-stock" 
+            type="number" 
+            errorText="Error"
+            [(ngModel)]="product.quantity" 
+            (ngModelChange)="readData()">
+        </ion-input>
     </ion-item>
 
     <ion-item id="description">
         <ion-label>Descripción: </ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input 
+            id="i-description" 
+            type="text" 
+            counter
+            maxlength="200"
+            errorText="Error"
+            [(ngModel)]="product.description" 
+            (ngModelChange)="readData()">
+        </ion-input>
     </ion-item>
+
+    <ion-button [disabled]="form.invalid" (click)="addProduct()">Añadir</ion-button>
+    <ion-button (click)="mostrarProducto()">Mostrar</ion-button>
 </ion-list>
+
+<!--
+ Created by Salo417 (GitHub/email: schooldayssal@gmail.com)  on Apr-13-2023.
+ This source code is governed by:
+  
+ BSD 3-Clause License (That can be found in LICENCE file)
+ 
+ Copyright (c) 2023, Salo417 (GitHub/email: schooldayssal@gmail.com)
+-->
