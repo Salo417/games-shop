@@ -10,7 +10,7 @@ export interface Dao<T> {
     
     save(t: T);
     
-    update(t: T, params: string[]);
+    update(t: (T | number), params: string[]);
     
-    delete(t: T);
+    delete(t: (T | number));
 }

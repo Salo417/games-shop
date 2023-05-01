@@ -3,9 +3,9 @@ import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 
 import SwiperCore, { Navigation } from 'swiper';
 import { ProductsService } from 'src/app/features/services/product-service/products.service';
-import { IProduct } from 'src/app/shared/models/products/models/IProduct';
+import { IProduct } from 'src/app/shared/resources/product/IProduct';
 import { ProductViewComponent } from 'src/app/shared/models/products/views/product-view.component';
-import { EPlatforms } from 'src/app/shared/models/products/models/EPlatforms';
+import { EPlatforms } from 'src/app/shared/resources/product/EPlatforms';
 import { register } from 'swiper/element/bundle';
 
 

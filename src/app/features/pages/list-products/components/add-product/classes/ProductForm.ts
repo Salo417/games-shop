@@ -3,7 +3,7 @@
  */
 
 import { FormControl } from "@angular/forms";
-import { EPlatforms } from "src/app/shared/models/products/models/EPlatforms";
+import { EPlatforms } from "src/app/shared/resources/product/EPlatforms";
 
 export interface ProductForms {
     name:        FormControl<string>;

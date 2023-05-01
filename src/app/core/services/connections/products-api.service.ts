@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { IProduct } from 'src/app/shared/models/products/models/IProduct';
+import { IProduct } from 'src/app/shared/resources/product/IProduct';
 import { Product } from 'src/app/shared/models/products/models/Product';
 import { UserLogedService } from './user-loged.service';
 
@@ -107,6 +107,10 @@ export class ProductsApiService {
     });
 
     return this.http.delete(ProductsApiService.FULL_API_URL, { headers, responseType: "json" });
+  }
+
+  public updateProduct(product: IProduct) {
+
   }
 
   public get restProductConne() {

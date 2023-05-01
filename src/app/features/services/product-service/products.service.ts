@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { IProduct } from 'src/app/shared/models/products/models/IProduct';
+import { IProduct } from 'src/app/shared/resources/product/IProduct';
 import { Product } from 'src/app/shared/models/products/models/Product';
 import { ProductsApiService } from '../../../core/services/connections/products-api.service';
-import { Dao } from 'src/app/shared/api/Dao';
+import { Dao } from 'src/app/shared/resources/dao/Dao';
 
 @Injectable({
   providedIn: "platform"
@@ -14,7 +14,7 @@ export class ProductsService implements Dao<IProduct> {
 
 
   // METHODS
-  public async getAll(): Promise<Product[]> {
+  async getAll(): Promise<Product[]> {
     let products: Product[];
 
     await lastValueFrom( this.productApi.getAllProducts() )
@@ -32,7 +32,7 @@ export class ProductsService implements Dao<IProduct> {
     throw new Error('Method not implemented.');
   }
 
-  async save(...product: IProduct[]): Promise<void> {
+  async save(...product: IProduct[]) {
 
     product.forEach( async (value, index, array) => {
       console.debug('Starting connection to server...');
@@ -48,7 +48,22 @@ export class ProductsService implements Dao<IProduct> {
   update(t: IProduct, params: string[]) {
     throw new Error('Method not implemented.');
   }
-  delete(t: IProduct) {
-    throw new Error('Method not implemented.');
+
+  async delete(id: number | IProduct) {
+    if (typeof id == 'number') {
+      await lastValueFrom( this.productApi.deleteProduct(id) )
+        .then( (value) => { } )
+        .catch( (reason) => {
+          throw new Error(reason);
+        });
+    } else if (typeof id == 'object') {
+      await lastValueFrom( this.productApi.deleteProduct(id.pid) )
+        .then( (value) => { } )
+        .catch( (reason) => {
+          throw new Error(reason);
+        });
+    } else {
+      console.debug('parameter is not number or object.');
+    }
   }
 }
