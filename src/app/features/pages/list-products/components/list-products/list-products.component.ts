@@ -22,8 +22,9 @@ export class ListProductsComponent implements OnInit {
 
   ngOnInit() { this.loadProducts(); }
 
-  protected edit(prod: Product) {
-    alert(`Editado ${prod.name}`);
+  protected async edit(prod: Product) {
+    //alert(`Editado ${prod.name}`);
+    //console.log( await this.productService.getById(prod.pid) );
   }
 
   protected delete(prod: Product) {

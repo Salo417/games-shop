@@ -4,13 +4,13 @@
 
 export interface Dao<T> {
     
-    getById(id: number): T;
+    getById(id: number): T | Promise<T>;
     
     getAll(): Iterable<T | [any, T]> | Promise< T | Iterable<T | [any, T]> >;
     
     save(t: T);
     
-    update(t: (T | number), params: string[]);
+    update( t: (T | number) );
     
     delete(t: (T | number));
 }

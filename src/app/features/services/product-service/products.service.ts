@@ -28,8 +28,8 @@ export class ProductsService implements Dao<IProduct> {
     return products;
   }
 
-  getById(id: number): IProduct {
-    throw new Error('Method not implemented.');
+  async getById(id: number): Promise<IProduct> {
+    return await lastValueFrom( this.productApi.getProduct(id) );
   }
 
   async save(...product: IProduct[]) {
@@ -45,8 +45,8 @@ export class ProductsService implements Dao<IProduct> {
 
   }
 
-  update(t: IProduct, params: string[]) {
-    throw new Error('Method not implemented.');
+  update(product: IProduct) {
+    return this.productApi.updateProduct(product);
   }
 
   async delete(id: number | IProduct) {
