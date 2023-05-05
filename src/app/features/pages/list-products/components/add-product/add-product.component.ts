@@ -1,7 +1,6 @@
-import { Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { EPlatforms } from 'src/app/shared/resources/product/EPlatforms';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { IProduct } from 'src/app/shared/resources/product/IProduct';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProductForms } from './classes/ProductForm';
 import { IonInput } from '@ionic/angular';
 import { DecimalValidator } from './directives/decimal-validator.directive';

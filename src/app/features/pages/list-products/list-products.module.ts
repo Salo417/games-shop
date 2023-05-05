@@ -13,6 +13,7 @@ import { ProductsService } from '../../services/product-service/products.service
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { ListProductsComponent } from './components/list-products/list-products.component';
 import { DecimalValidator } from './components/add-product/directives/decimal-validator.directive';
+import { EditProductComponent } from './components/edit-product/edit-product.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { DecimalValidator } from './components/add-product/directives/decimal-va
     ListProductsPage,
     ListProductsComponent,
     AddProductComponent,
-    DecimalValidator
+    DecimalValidator,
+    EditProductComponent
   ],
   providers: [ProductsService]
 })
