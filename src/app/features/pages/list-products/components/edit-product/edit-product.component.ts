@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EPlatforms } from 'src/app/shared/resources/product/EPlatforms';
 import { DecimalValidator } from '../add-product/directives/decimal-validator.directive';
@@ -6,6 +6,7 @@ import { ProductsService } from 'src/app/features/services/product-service/produ
 import { IonInput } from '@ionic/angular';
 import { Product } from 'src/app/shared/resources/product/Product';
 import { ProductForms } from './classes/ProductForm';
+import { IProduct } from 'src/app/shared/resources/product/IProduct';
 
 @Component({
   selector: 'app-edit-product',
@@ -13,6 +14,8 @@ import { ProductForms } from './classes/ProductForm';
   styleUrls: ['./edit-product.component.scss'],
 })
 export class EditProductComponent  implements OnInit {
+  @Input('product') iProduct: IProduct;
+
   protected platforms = Object.values(EPlatforms);
   protected product = {
     name:        '',
@@ -39,7 +42,13 @@ export class EditProductComponent  implements OnInit {
   
   constructor(private productService: ProductsService) {} 
 
+  ngOnInit(): void {
+    this.checkProductInput();
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
+    
+    /*
     console.log('Cambios detectados.');
     this.form
       .setValue({
@@ -53,9 +62,8 @@ export class EditProductComponent  implements OnInit {
 
     console.log('El formulario a cambiado a: ');
     console.log(this.form.getRawValue());
+    */
   }
-
-  ngOnInit(): void {}
 
 
   mostrarProducto() {
@@ -132,6 +140,27 @@ export class EditProductComponent  implements OnInit {
       .catch( (reason) => {
         console.debug(`Ha ocurrido un error inesperado:\n${reason}`);
       });
+  }
+
+  private priceNumberToString(price: number): string {
+    const p1 = String(price).split('.');
+
+    if (p1.length == 1) {
+      p1.push('00');
+    }
+
+    return p1.join(',');
+  }
+
+  private checkProductInput() {
+    this.product = {
+      name:        (this.iProduct.name != undefined) ? this.iProduct.name : '',
+      platform:    (this.iProduct.platform != undefined) ? this.iProduct.platform : '',
+      price:       this.priceNumberToString(this.iProduct.price),
+      description: (this.iProduct.description != undefined) ? this.iProduct.description : '',
+      quantity:    this.iProduct.quantity,
+      releaseDate: this.iProduct.releaseDate
+    }
   }
 }
 

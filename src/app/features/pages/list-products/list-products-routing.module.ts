@@ -8,15 +8,6 @@ import { EditProductComponent } from './components/edit-product/edit-product.com
 
 const routes: Routes = [
   {
-    {
-      path: '',
-      redirectTo: ListProductsPage,
-      pathMatch: 'full',
-    },
-    {
-      path: 'list'
-    }
-    /*
     path: '',
     component: ListProductsPage,
     children: [
@@ -40,7 +31,6 @@ const routes: Routes = [
         ]
       }
     ]
-    */
   }
 ];
 
