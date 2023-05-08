@@ -4,9 +4,19 @@ import { AddProductComponent } from './components/add-product/add-product.compon
 import { ListProductsComponent } from './components/list-products/list-products.component';
 
 import { ListProductsPage } from './list-products.page';
+import { EditProductComponent } from './components/edit-product/edit-product.component';
 
 const routes: Routes = [
   {
+    {
+      path: '',
+      redirectTo: ListProductsPage,
+      pathMatch: 'full',
+    },
+    {
+      path: 'list'
+    }
+    /*
     path: '',
     component: ListProductsPage,
     children: [
@@ -17,13 +27,20 @@ const routes: Routes = [
       },
       {
         path: 'list-products',
-        component: ListProductsComponent
-      },
-      {
-        path: 'add-product',
-        component: AddProductComponent
+        component: ListProductsComponent,
+        children: [
+          {
+            path: 'add-product',
+            component: AddProductComponent,
+          },
+          {
+            path: 'edit-product',
+            component: EditProductComponent
+          }
+        ]
       }
     ]
+    */
   }
 ];
 
