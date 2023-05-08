@@ -12,23 +12,12 @@ const routes: Routes = [
     component: ListProductsPage,
     children: [
       {
-        path: '',
-        redirectTo: 'list-products',
-        pathMatch: 'full'
+        path: 'add-product',
+        component: AddProductComponent,
       },
       {
-        path: 'list-products',
-        component: ListProductsComponent,
-        children: [
-          {
-            path: 'add-product',
-            component: AddProductComponent,
-          },
-          {
-            path: 'edit-product',
-            component: EditProductComponent
-          }
-        ]
+        path: 'edit-product',
+        component: EditProductComponent
       }
     ]
   }
