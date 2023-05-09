@@ -28,7 +28,6 @@ import { DeleteProductViewComponent } from './components/delete-product-view/del
   declarations: [
     ListProductsPage,
     ListProductsComponent,
-    AddProductComponent,
     DecimalValidator,
     EditProductComponent,
     DeleteProductViewComponent

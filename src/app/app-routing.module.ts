@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AddProductComponent } from './features/pages/list-products/components/add-product/add-product.component';
+import { EditProductComponent } from './features/pages/list-products/components/edit-product/edit-product.component';
 //import { UserLogedService } from './core/services/api/user-loged.service';
 
 const routes: Routes = [
@@ -39,6 +41,14 @@ const routes: Routes = [
   {
     path: 'list-products',
     loadChildren: () => import('./features/pages/list-products/list-products.module').then( m => m.ListProductsPageModule)
+  },
+  {
+    path: 'add-product',
+    component:AddProductComponent
+  },
+  {
+    path: 'edit-product',
+    component: EditProductComponent
   }
 ];
 

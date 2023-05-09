@@ -89,4 +89,8 @@ export class ListProductsPage implements OnInit {
   protected goToAddProductView() {
     this.router.navigate(['add-product'], { relativeTo: this.route })
   }
+
+  protected onAddProduct(){
+    this.router.navigate(['/add-product'], {relativeTo:this.route});
+  }
 }

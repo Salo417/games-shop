@@ -10,6 +10,8 @@ import { AppRoutingModule } from './app-routing.module';
 //import dayGridPlugin from '@fullcalendar/daygrid';
 import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
+import { AddProductComponent } from './features/pages/list-products/components/add-product/add-product.component';
+import { ProductsService } from './features/services/product-service/products.service';
 //import interactionPlugin from '@fullcalendar/interaction';
 
 
@@ -20,7 +22,7 @@ FullCalendarModule.registerPlugins([
 */
 
 @NgModule({
-  declarations: [AppComponent],
+    declarations: [AppComponent, AddProductComponent],
   imports: [
     BrowserModule, 
     HttpClientModule,
@@ -29,7 +31,7 @@ FullCalendarModule.registerPlugins([
     //FullCalendarModule,
     CoreModule.forRoot()
   ],
-  providers: [ { provide: RouteReuseStrategy, useClass: IonicRouteStrategy } ],
+  providers: [ { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, ProductsService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

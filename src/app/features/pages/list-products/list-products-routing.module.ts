@@ -11,10 +11,7 @@ const routes: Routes = [
     path: '',
     component: ListProductsPage,
     children: [
-      {
-        path: 'add-product',
-        component: AddProductComponent,
-      },
+      
       {
         path: 'edit-product',
         component: EditProductComponent
