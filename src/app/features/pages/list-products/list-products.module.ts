@@ -29,7 +29,7 @@ import { DeleteProductViewComponent } from './components/delete-product-view/del
     ListProductsPage,
     ListProductsComponent,
     DecimalValidator,
-    EditProductComponent,
+    /*EditProductComponent,*/
     DeleteProductViewComponent
   ],
   providers: [ProductsService]

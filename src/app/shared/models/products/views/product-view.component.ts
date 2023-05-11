@@ -44,7 +44,7 @@ export class ProductViewComponent implements OnInit, OnDestroy {
   protected edit() {
     //this.onEdit.onSuccess();
     this.editEvent.emit( Product.generateProduct(this.controller.product) );
-    this.controller.product = this.product;
+    // Editado despues this.controller.product = this.product;
     /*
     this.onEdit.subscribe( (prod) => {
       this.controller.product = prod;

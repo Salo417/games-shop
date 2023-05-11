@@ -12,6 +12,7 @@ import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AddProductComponent } from './features/pages/list-products/components/add-product/add-product.component';
 import { ProductsService } from './features/services/product-service/products.service';
+import { EditProductComponent } from './features/pages/list-products/components/edit-product/edit-product.component';
 //import interactionPlugin from '@fullcalendar/interaction';
 
 
@@ -22,7 +23,7 @@ FullCalendarModule.registerPlugins([
 */
 
 @NgModule({
-    declarations: [AppComponent, AddProductComponent],
+  declarations: [AppComponent, AddProductComponent, EditProductComponent],
   imports: [
     BrowserModule, 
     HttpClientModule,

@@ -27,7 +27,7 @@ export class ListProductsComponent implements OnInit {
   protected edit(prod: Product) {
     //alert(`Editado ${prod.name}`);
     //console.log( await this.productService.getById(prod.pid) );
-    this.router.navigate(['edit-product'], {queryParams: {product: prod} });
+    this.router.navigate(['/edit-product'], {queryParams: {product: prod} });
   }
 
   protected delete(prod: Product) {

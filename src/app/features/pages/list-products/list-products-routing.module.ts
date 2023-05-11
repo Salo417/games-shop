@@ -11,11 +11,12 @@ const routes: Routes = [
     path: '',
     component: ListProductsPage,
     children: [
-      
+      /*
       {
         path: 'edit-product',
         component: EditProductComponent
       }
+      */
     ]
   }
 ];

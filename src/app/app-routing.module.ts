@@ -40,14 +40,14 @@ const routes: Routes = [
   },
   {
     path: 'list-products',
-    loadChildren: () => import('./features/pages/list-products/list-products.module').then( m => m.ListProductsPageModule)
+    loadChildren: () => import('./features/pages/list-products/list-products.module').then( m => m.ListProductsPageModule),
   },
   {
     path: 'add-product',
-    component:AddProductComponent
+    component: AddProductComponent
   },
   {
-    path: 'edit-product',
+    path: 'edit-product/:pid',
     component: EditProductComponent
   }
 ];

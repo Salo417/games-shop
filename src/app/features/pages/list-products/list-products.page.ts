@@ -26,7 +26,9 @@ export class ListProductsPage implements OnInit {
   protected edit(prod: Product) {
     //alert(`Editado ${prod.name}`);
     //console.log( await this.productService.getById(prod.pid) );
-    this.router.navigate(['edit-product'], {queryParams: {product: prod} });
+    console.debug("edit methid in list-product-page");
+    console.debug(prod);
+    this.router.navigate(['/edit-product', prod.pid], {/*queryParams: {product: prod},*/ relativeTo: this.route });
   }
 
   protected delete(prod: Product) {
