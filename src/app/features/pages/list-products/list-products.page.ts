@@ -1,5 +1,5 @@
 import { Component, DoCheck, OnInit, ViewChild } from '@angular/core';
-import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
+import { AlertController, InfiniteScrollCustomEvent, ModalController, ToastController, ToastOptions } from '@ionic/angular';
 import { Product } from 'src/app/shared/models/products/models/Product';
 import { ProductsService } from '../../services/product-service/products.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,13 +16,16 @@ export class ListProductsPage implements OnInit {
 
   constructor(
     private productService: ProductsService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private modal: ModalController
+    private router:         Router,
+    private route:          ActivatedRoute,
+    private ionAlert:       AlertController,
+    private toast:          ToastController
     ) { }
 
   ngOnInit() { this.loadProducts(); }
 
+
+  // METHODS
   protected edit(prod: Product) {
     console.debug("edit methid in list-product-page");
     console.debug(prod);
@@ -30,7 +33,42 @@ export class ListProductsPage implements OnInit {
   }
 
   protected delete(prod: Product) {
-    alert(`¿Estás seguro de que deseas borrar ${prod.name}?`);
+    this.ionAlert.create({
+      message: "¿Estás seguro de que deseas eliminar este producto?",
+      buttons: [
+        {
+          text: "Cancelar",
+          role: 'cancel'
+        },
+        {
+          text: "Confirmar",
+          role: 'confirm',
+          handler: () => {
+            this.toast.create({
+              message: "Eliminado...",
+              animated: true,
+              duration: 3500
+            }).then(htmlToast => htmlToast.present() );
+            this.productService.delete(prod.pid)
+              .then( () => {
+                this.toast.create({
+                  message: "Producto eliminado correctamente.",
+                  animated: true,
+                  duration: 3500
+                }).then(htmlToast => htmlToast.present() );
+              })
+              .catch( () => {
+                this.toast.create({
+                  message: "Ha ocurrido un error y el producto no se ha eliminado.",
+                  animated: true,
+                  duration: 3500
+                }).then(htmlToast => htmlToast.present() );
+              });
+          }
+        }
+      ],
+      animated: true
+    }).then(htmlIonAlert => htmlIonAlert.present() );
   }
 
   protected loadProducts(): Promise<void> {

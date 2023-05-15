@@ -106,7 +106,7 @@ export class EditProductComponent  implements OnInit {
       });
   }
 
-  addProduct() {
+  updateProduct() {
     alert(`Tu producto ${this.product.name} va a ser agregado a la base de datos del backend de la Salo Shop. (Texto provisional no se guarda en el backend).`);
     this.productService.save( new Product(
       undefined, 

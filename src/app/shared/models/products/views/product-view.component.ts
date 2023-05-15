@@ -23,7 +23,7 @@ export class ProductViewComponent implements OnInit, OnDestroy {
   // PROPERTIES
   //onEdit:   Observable<IProduct>;//{onSuccess: () => void, onRejected: (error: Error) => void};
   //onDelete: Observable<void>;
-  onDelete: () => void;
+  //onDelete: () => void;
 
   protected controller: ProductController;
 
@@ -37,7 +37,7 @@ export class ProductViewComponent implements OnInit, OnDestroy {
     this.controller = new ProductController(this.product);
   }
 
-  ngOnDestroy(): void { this.onDelete(); }
+  ngOnDestroy(): void { /*this.onDelete();*/ }
 
   
   // METHODS
