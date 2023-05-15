@@ -23,7 +23,7 @@ FullCalendarModule.registerPlugins([
 */
 
 @NgModule({
-  declarations: [AppComponent, AddProductComponent, EditProductComponent],
+  declarations: [AppComponent/*, AddProductComponent, EditProductComponent*/],
   imports: [
     BrowserModule, 
     HttpClientModule,

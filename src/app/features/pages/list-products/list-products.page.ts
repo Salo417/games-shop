@@ -24,40 +24,13 @@ export class ListProductsPage implements OnInit {
   ngOnInit() { this.loadProducts(); }
 
   protected edit(prod: Product) {
-    //alert(`Editado ${prod.name}`);
-    //console.log( await this.productService.getById(prod.pid) );
     console.debug("edit methid in list-product-page");
     console.debug(prod);
-    this.router.navigate(['/edit-product', prod.pid], {/*queryParams: {product: prod},*/ relativeTo: this.route });
+    this.router.navigate(['edit-product', prod.pid], { relativeTo: this.route });
   }
 
   protected delete(prod: Product) {
-    //alert(`¿Estás seguro de que deseas borrar ${prod.name}?`);
-    /*
-    this.modal.create({
-      component: DeleteProductViewComponent,
-      componentProps?: { [key: string]: any };
-      presentingElement?: HTMLElement;
-      showBackdrop?: boolean;
-      backdropDismiss?: boolean;
-      cssClass?: string | string[];
-      animated?: boolean;
-      canDismiss?: boolean | ((data?: any, role?: string) => Promise<boolean>);
-    
-      mode?: 'ios' | 'md';
-      keyboardClose?: boolean;
-      id?: string;
-      htmlAttributes?: { [key: string]: any };
-    
-      enterAnimation?: AnimationBuilder;
-      leaveAnimation?: AnimationBuilder;
-    
-      breakpoints?: number[];
-      initialBreakpoint?: number;
-      backdropBreakpoint?: number;
-      handle?: boolean;
-    });
-    */
+    alert(`¿Estás seguro de que deseas borrar ${prod.name}?`);
   }
 
   protected loadProducts(): Promise<void> {
@@ -93,6 +66,6 @@ export class ListProductsPage implements OnInit {
   }
 
   protected onAddProduct(){
-    this.router.navigate(['/add-product'], {relativeTo:this.route});
+    this.router.navigate(['add-product'], {relativeTo:this.route});
   }
 }

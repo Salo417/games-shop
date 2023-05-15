@@ -41,7 +41,7 @@ const routes: Routes = [
   {
     path: 'list-products',
     loadChildren: () => import('./features/pages/list-products/list-products.module').then( m => m.ListProductsPageModule),
-  },
+  } /*,
   {
     path: 'add-product',
     component: AddProductComponent
@@ -50,6 +50,7 @@ const routes: Routes = [
     path: 'edit-product/:pid',
     component: EditProductComponent
   }
+  */
 ];
 
 @NgModule({

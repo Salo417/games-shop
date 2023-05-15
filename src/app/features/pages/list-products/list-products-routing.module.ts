@@ -13,11 +13,29 @@ const routes: Routes = [
     children: [
       /*
       {
-        path: 'edit-product',
+        path: '',
+        component: ListProductsComponent
+      },
+      {
+        path: 'add-product',
+        component: AddProductComponent
+        //loadComponent: () => import('./components/add-product/add-product.component').then( m => m.AddProductComponent)
+      },
+      {
+        path: 'edit-product/:pid',
         component: EditProductComponent
       }
       */
     ]
+  },
+  {
+    path: 'add-product',
+    component: AddProductComponent
+    //loadComponent: () => import('./components/add-product/add-product.component').then( m => m.AddProductComponent)
+  },
+  {
+    path: 'edit-product/:pid',
+    component: EditProductComponent
   }
 ];
 
