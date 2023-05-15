@@ -12,7 +12,7 @@ import { ProductsModule } from 'src/app/shared/models/products/products.module';
 import { ProductsService } from '../../services/product-service/products.service';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { ListProductsComponent } from './components/list-products/list-products.component';
-import { DecimalValidator } from './components/add-product/directives/decimal-validator.directive';
+import { DecimalValidator } from './directives/decimal-validator.directive';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
 import { DeleteProductViewComponent } from './components/delete-product-view/delete-product-view.component';
 
@@ -28,8 +28,8 @@ import { DeleteProductViewComponent } from './components/delete-product-view/del
   declarations: [
     ListProductsPage,
     ListProductsComponent,
-    AddProductComponent,
     DecimalValidator,
+    AddProductComponent,
     EditProductComponent,
     DeleteProductViewComponent
   ],

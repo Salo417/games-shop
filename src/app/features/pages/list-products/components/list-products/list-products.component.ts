@@ -27,11 +27,11 @@ export class ListProductsComponent implements OnInit {
   protected edit(prod: Product) {
     //alert(`Editado ${prod.name}`);
     //console.log( await this.productService.getById(prod.pid) );
-    this.router.navigate(['edit-product'], {queryParams: {product: prod} });
+    this.router.navigate(['edit-product', prod.pid], { relativeTo: this.route });
   }
 
   protected delete(prod: Product) {
-    //alert(`¿Estás seguro de que deseas borrar ${prod.name}?`);
+    alert(`¿Estás seguro de que deseas borrar ${prod.name}?`);
     /*
     this.modal.create({
       component: DeleteProductViewComponent,

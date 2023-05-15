@@ -11,15 +11,31 @@ const routes: Routes = [
     path: '',
     component: ListProductsPage,
     children: [
+      /*
       {
-        path: 'add-product',
-        component: AddProductComponent,
+        path: '',
+        component: ListProductsComponent
       },
       {
-        path: 'edit-product',
+        path: 'add-product',
+        component: AddProductComponent
+        //loadComponent: () => import('./components/add-product/add-product.component').then( m => m.AddProductComponent)
+      },
+      {
+        path: 'edit-product/:pid',
         component: EditProductComponent
       }
+      */
     ]
+  },
+  {
+    path: 'add-product',
+    component: AddProductComponent
+    //loadComponent: () => import('./components/add-product/add-product.component').then( m => m.AddProductComponent)
+  },
+  {
+    path: 'edit-product/:pid',
+    component: EditProductComponent
   }
 ];
 

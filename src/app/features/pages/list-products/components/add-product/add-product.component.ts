@@ -1,9 +1,9 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EnvironmentInjector, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { EPlatforms } from 'src/app/shared/resources/product/EPlatforms';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProductForms } from './classes/ProductForm';
 import { IonInput } from '@ionic/angular';
-import { DecimalValidator } from './directives/decimal-validator.directive';
+import { DecimalValidator } from '../../directives/decimal-validator.directive';
 import { ProductsService } from 'src/app/features/services/product-service/products.service';
 import { Product } from 'src/app/shared/models/products/models/Product';
 
@@ -12,7 +12,7 @@ import { Product } from 'src/app/shared/models/products/models/Product';
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.scss'],
 })
-export class AddProductComponent implements OnInit, OnChanges {
+export class AddProductComponent implements OnInit {
   /*
   @ViewChild('i-product-name') productName: IonInput;
   @ViewChild('i-platform')     platform:    IonInput;
@@ -46,30 +46,30 @@ export class AddProductComponent implements OnInit, OnChanges {
   });
 
   
-  constructor(private productService: ProductsService) {} 
+  constructor(private productService: ProductsService, private injector: EnvironmentInjector) {} 
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('Cambios detectados.');
-    this.form
-      .setValue({
-        name:        this.product.name,
-        platform:    this.product.platform,
-        price:       Number( this.product.price.replace(',', '.') ),
-        releaseDate: this.product.releaseDate,
-        quantity:    this.product.quantity,
-        description: this.product.description
-      });
-      /*
-      .get(['name', 'platform', 'price', 'releaseDate', 'quantity', 'description'])
-      .setValue({
-        name: this.product.name,
-        platform: this.product.platform,
-        price
-      });
-      */
-     console.log('El formulario a cambiado a: ');
-     console.log(this.form.getRawValue());
-  }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   console.log('Cambios detectados.');
+  //   this.form
+  //     .setValue({
+  //       name:        this.product.name,
+  //       platform:    this.product.platform,
+  //       price:       Number( this.product.price.replace(',', '.') ),
+  //       releaseDate: this.product.releaseDate,
+  //       quantity:    this.product.quantity,
+  //       description: this.product.description
+  //     });
+  //     /*
+  //     .get(['name', 'platform', 'price', 'releaseDate', 'quantity', 'description'])
+  //     .setValue({
+  //       name: this.product.name,
+  //       platform: this.product.platform,
+  //       price
+  //     });
+  //     */
+  //    console.log('El formulario a cambiado a: ');
+  //    console.log(this.form.getRawValue());
+  // }
 
   ngOnInit(): void {}
 

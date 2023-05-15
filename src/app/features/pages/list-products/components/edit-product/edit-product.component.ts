@@ -1,12 +1,14 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EPlatforms } from 'src/app/shared/resources/product/EPlatforms';
-import { DecimalValidator } from '../add-product/directives/decimal-validator.directive';
+import { DecimalValidator } from '../../directives/decimal-validator.directive';
 import { ProductsService } from 'src/app/features/services/product-service/products.service';
 import { IonInput } from '@ionic/angular';
 import { Product } from 'src/app/shared/resources/product/Product';
 import { ProductForms } from './classes/ProductForm';
 import { IProduct } from 'src/app/shared/resources/product/IProduct';
+import { ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-edit-product',
@@ -40,29 +42,10 @@ export class EditProductComponent  implements OnInit {
     });
 
   
-  constructor(private productService: ProductsService) {} 
+  constructor(private productService: ProductsService, private paramRoute: ActivatedRoute) {} 
 
   ngOnInit(): void {
     this.checkProductInput();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    
-    /*
-    console.log('Cambios detectados.');
-    this.form
-      .setValue({
-        name:        this.product.name,
-        platform:    this.product.platform,
-        price:       Number( this.product.price.replace(',', '.') ),
-        releaseDate: this.product.releaseDate,
-        quantity:    this.product.quantity,
-        description: this.product.description
-      });
-
-    console.log('El formulario a cambiado a: ');
-    console.log(this.form.getRawValue());
-    */
   }
 
 
@@ -153,6 +136,7 @@ export class EditProductComponent  implements OnInit {
   }
 
   private checkProductInput() {
+    /*
     this.product = {
       name:        (this.iProduct.name != undefined) ? this.iProduct.name : '',
       platform:    (this.iProduct.platform != undefined) ? this.iProduct.platform : '',
@@ -161,6 +145,24 @@ export class EditProductComponent  implements OnInit {
       quantity:    this.iProduct.quantity,
       releaseDate: this.iProduct.releaseDate
     }
+    */
+    this.paramRoute.paramMap.pipe(
+      switchMap(params => params.get('pid'))).subscribe( async pid => {
+        console.debug("Entering in paramRouter...");
+        console.debug(pid);
+        await this.productService.getById( Number(pid) ).then(product => this.iProduct = product);
+
+        this.product = {
+          name:        (this.iProduct.name != undefined) ? this.iProduct.name : '',
+          platform:    (this.iProduct.platform != undefined) ? this.iProduct.platform : '',
+          price:       this.priceNumberToString(this.iProduct.price),
+          description: (this.iProduct.description != undefined) ? this.iProduct.description : '',
+          quantity:    this.iProduct.quantity,
+          releaseDate: this.iProduct.releaseDate
+        }
+
+        this.refreshForm();
+      });
   }
 }
 
