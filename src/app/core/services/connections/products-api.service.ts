@@ -146,7 +146,7 @@ export class ProductsApiService {
       quantity:     product.quantity
     };
 
-    return this.http.patch(`${ProductsApiService.FULL_API_URL}/${product.pid}`, JSON.stringify({data: p}), { headers, responseType: "json" });
+    return this.http.put(`${ProductsApiService.FULL_API_URL}/${product.pid}`, JSON.stringify({data: p}), { headers, responseType: "json" });
   }
 
   public get restProductConne() {

@@ -116,11 +116,6 @@ export class EditProductComponent  implements OnInit {
 
   updateProduct() {
     //alert(`Tu producto ${this.product.name} va a ser agregado a la base de datos del backend de la Salo Shop. (Texto provisional no se guarda en el backend).`);
-    this.toast.create({
-      message: "Editando, espere...",
-      animated: true,
-      duration: 3500
-    }).then(htmlToast => htmlToast.present() );
     
     this.productService.update( new Product(
       this.iProduct.pid, 
@@ -133,13 +128,17 @@ export class EditProductComponent  implements OnInit {
     ))
       .subscribe({
         next: () => {
+          this.router.back();
+
           this.toast.create({
-            message: "Producto editado correctamente.",
+            message: "Editando, espere...",
             animated: true,
             duration: 3500
           }).then(htmlToast => htmlToast.present() );
         }, 
         error: (reason) => {
+          this.router.back();
+          
           this.ionAlert.create({
             message: "Ha ocurrido un error. Su producto no se editará.",
             animated: true,
@@ -147,12 +146,20 @@ export class EditProductComponent  implements OnInit {
               {
                 text: 'Confirmar',
                 role: 'confirm',
-                handler: () => this.router.back() //.navigate(['list-products'])
+                //handler: () => this.router.back()
               }
             ]
           }).then(htmlToast => htmlToast.present() );
         },
-        complete: () => this.router.back() //.navigate(['list-products'])
+        complete: () => {
+          this.toast.create({
+            message: "Producto editado correctamente.",
+            animated: true,
+            duration: 3500
+          }).then(htmlToast => htmlToast.present() );
+
+          //this.router.back()
+        }
       });
   }
 
