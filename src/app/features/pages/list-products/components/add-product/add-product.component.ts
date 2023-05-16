@@ -1,11 +1,13 @@
-import { Component, EnvironmentInjector, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EPlatforms } from 'src/app/shared/resources/product/EPlatforms';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProductForms } from './classes/ProductForm';
-import { IonInput } from '@ionic/angular';
+import { AlertController, IonInput, ToastController } from '@ionic/angular';
 import { DecimalValidator } from '../../directives/decimal-validator.directive';
 import { ProductsService } from 'src/app/features/services/product-service/products.service';
 import { Product } from 'src/app/shared/models/products/models/Product';
+import { Router } from '@angular/router';
+import { LocationStrategy } from '@angular/common';
 
 @Component({
   selector: 'app-add-product',
@@ -46,7 +48,13 @@ export class AddProductComponent implements OnInit {
   });
 
   
-  constructor(private productService: ProductsService, private injector: EnvironmentInjector) {} 
+  constructor(
+    private productService: ProductsService, 
+    private ionAlert:       AlertController, 
+    private toast:          ToastController,
+    //private router:         Router,
+    private router:    LocationStrategy
+    ) {} 
 
   // ngOnChanges(changes: SimpleChanges): void {
   //   console.log('Cambios detectados.');
@@ -144,22 +152,60 @@ export class AddProductComponent implements OnInit {
   }
 
   addProduct() {
-    alert(`Tu producto ${this.product.name} va a ser agregado a la base de datos del backend de la Salo Shop. (Texto provisional no se guarda en el backend).`);
-    this.productService.save( new Product(
-      undefined, 
-      this.form.get('name').value, 
-      this.form.get('price').value, 
-      this.form.get('quantity').value, 
-      (this.form.get('releaseDate').value as Date), 
-      this.form.get('platform').value, 
-      this.form.get('description').value
-    ))
-      .then( () => {
-        console.debug('Producto añadido correctamente.');
-      })
-      .catch( (reason) => {
-        console.debug(`Ha ocurrido un error inesperado:\n${reason}`);
-      });
+    //alert(`Tu producto ${this.product.name} va a ser agregado a la base de datos del backend de la Salo Shop. (Texto provisional no se guarda en el backend).`);
+    this.ionAlert.create({
+      message: "Se va a agregar su producto.",
+      buttons: [
+        {
+          text: "Cancelar",
+          role: 'cancel'
+        },
+        {
+          text: "Confirmar",
+          role: 'confirm',
+          handler: () => {
+            this.toast.create({
+              message: "Agregando producto, espere...",
+              animated: true,
+              duration: 3500
+            }).then(htmlToast => htmlToast.present() );
+
+            this.productService.save( new Product(
+              undefined, 
+              this.form.get('name').value, 
+              this.form.get('price').value, 
+              this.form.get('quantity').value, 
+              (this.form.get('releaseDate').value as Date), 
+              this.form.get('platform').value, 
+              this.form.get('description').value
+            ))
+              .then( () => {
+                this.toast.create({
+                  message: "Producto añadido correctamente.",
+                  animated: true,
+                  duration: 3500
+                }).then(htmlToast => htmlToast.present() );
+
+                this.router.back(); //.navigate(['list-products']);
+              })
+              .catch( (reason) => {
+                this.ionAlert.create({
+                  message: "Ha ocurrido un error. Su producto no se ha añadido.",
+                  animated: true,
+                  buttons: [
+                    {
+                      text: 'Confirmar',
+                      role: 'confirm',
+                      handler: () => this.router.back() //.navigate(['list-products'])
+                    }
+                  ]
+                }).then(htmlToast => htmlToast.present() );
+              });
+          }
+        }
+      ],
+      animated: true
+    }).then(htmlIonAlert => htmlIonAlert.present() );
   }
 
 }

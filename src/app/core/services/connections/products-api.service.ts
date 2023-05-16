@@ -142,7 +142,7 @@ export class ProductsApiService {
       platform:     product.platform,
       price:        product.price,
       release_date: product.releaseDate,
-      description:  product.quantity,
+      description:  product.description,
       quantity:     product.quantity
     };
 

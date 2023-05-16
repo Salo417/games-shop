@@ -1,5 +1,5 @@
-import { Component, DoCheck, OnInit, ViewChild } from '@angular/core';
-import { AlertController, InfiniteScrollCustomEvent, ModalController, ToastController, ToastOptions } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
+import { AlertController, InfiniteScrollCustomEvent, ToastController } from '@ionic/angular';
 import { Product } from 'src/app/shared/models/products/models/Product';
 import { ProductsService } from '../../services/product-service/products.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,8 +27,6 @@ export class ListProductsPage implements OnInit {
 
   // METHODS
   protected edit(prod: Product) {
-    console.debug("edit methid in list-product-page");
-    console.debug(prod);
     this.router.navigate(['edit-product', prod.pid], { relativeTo: this.route });
   }
 

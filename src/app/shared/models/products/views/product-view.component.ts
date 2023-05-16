@@ -9,7 +9,7 @@ import { Product } from '../models/Product';
 
 
 @Component({
-  selector: 'app-product-view',
+  selector: 'product-view',
   templateUrl: './product-view.component.html',
   styleUrls: ['./product-view.component.scss'],
 })

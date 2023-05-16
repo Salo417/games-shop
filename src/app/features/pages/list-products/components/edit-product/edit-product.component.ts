@@ -3,12 +3,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EPlatforms } from 'src/app/shared/resources/product/EPlatforms';
 import { DecimalValidator } from '../../directives/decimal-validator.directive';
 import { ProductsService } from 'src/app/features/services/product-service/products.service';
-import { IonInput } from '@ionic/angular';
+import { AlertController, IonInput, ToastController } from '@ionic/angular';
 import { Product } from 'src/app/shared/resources/product/Product';
 import { ProductForms } from './classes/ProductForm';
 import { IProduct } from 'src/app/shared/resources/product/IProduct';
-import { ActivatedRoute } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map, switchMap } from 'rxjs';
+import { LocationStrategy } from '@angular/common';
 
 @Component({
   selector: 'app-edit-product',
@@ -42,7 +43,14 @@ export class EditProductComponent  implements OnInit {
     });
 
   
-  constructor(private productService: ProductsService, private paramRoute: ActivatedRoute) {} 
+  constructor(
+    private productService: ProductsService, 
+    //private router:         Router,
+    private router:         LocationStrategy,
+    private paramRoute:     ActivatedRoute,
+    private toast:          ToastController,
+    private ionAlert:       AlertController
+    ) {} 
 
   ngOnInit(): void {
     this.checkProductInput();
@@ -107,9 +115,15 @@ export class EditProductComponent  implements OnInit {
   }
 
   updateProduct() {
-    alert(`Tu producto ${this.product.name} va a ser agregado a la base de datos del backend de la Salo Shop. (Texto provisional no se guarda en el backend).`);
-    this.productService.save( new Product(
-      undefined, 
+    //alert(`Tu producto ${this.product.name} va a ser agregado a la base de datos del backend de la Salo Shop. (Texto provisional no se guarda en el backend).`);
+    this.toast.create({
+      message: "Editando, espere...",
+      animated: true,
+      duration: 3500
+    }).then(htmlToast => htmlToast.present() );
+    
+    this.productService.update( new Product(
+      this.iProduct.pid, 
       this.form.get('name').value, 
       this.form.get('price').value, 
       this.form.get('quantity').value, 
@@ -117,11 +131,28 @@ export class EditProductComponent  implements OnInit {
       this.form.get('platform').value, 
       this.form.get('description').value
     ))
-      .then( () => {
-        console.debug('Producto añadido correctamente.');
-      })
-      .catch( (reason) => {
-        console.debug(`Ha ocurrido un error inesperado:\n${reason}`);
+      .subscribe({
+        next: () => {
+          this.toast.create({
+            message: "Producto editado correctamente.",
+            animated: true,
+            duration: 3500
+          }).then(htmlToast => htmlToast.present() );
+        }, 
+        error: (reason) => {
+          this.ionAlert.create({
+            message: "Ha ocurrido un error. Su producto no se editará.",
+            animated: true,
+            buttons: [
+              {
+                text: 'Confirmar',
+                role: 'confirm',
+                handler: () => this.router.back() //.navigate(['list-products'])
+              }
+            ]
+          }).then(htmlToast => htmlToast.present() );
+        },
+        complete: () => this.router.back() //.navigate(['list-products'])
       });
   }
 
@@ -147,7 +178,7 @@ export class EditProductComponent  implements OnInit {
     }
     */
     this.paramRoute.paramMap.pipe(
-      switchMap(params => params.get('pid'))).subscribe( async pid => {
+      map(params => params.get('pid'))).subscribe( async pid => {
         console.debug("Entering in paramRouter...");
         console.debug(pid);
         await this.productService.getById( Number(pid) ).then(product => this.iProduct = product);
