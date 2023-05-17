@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EPlatforms } from 'src/app/shared/resources/product/EPlatforms';
 import { DecimalValidator } from '../../directives/decimal-validator.directive';
@@ -7,8 +7,8 @@ import { AlertController, IonInput, ToastController } from '@ionic/angular';
 import { Product } from 'src/app/shared/resources/product/Product';
 import { ProductForms } from './classes/ProductForm';
 import { IProduct } from 'src/app/shared/resources/product/IProduct';
-import { ActivatedRoute, Router } from '@angular/router';
-import { map, switchMap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs';
 import { LocationStrategy } from '@angular/common';
 
 @Component({
@@ -41,19 +41,44 @@ export class EditProductComponent  implements OnInit {
       quantity:    new FormControl(this.product.quantity,    [Validators.required, Validators.min(0)]),
       description: new FormControl(this.product.description, Validators.maxLength(200))
     });
+    // 0 - Toast "Editando, espera"
+    // 1 - Toast "Producto editado correctamente."
+    // 2 - Alert "Ha ocurrido un error. Su producto no se editará."
+    private uiMessages: Array<HTMLIonToastElement | HTMLIonAlertElement> = new Array(3);
 
   
   constructor(
     private productService: ProductsService, 
-    //private router:         Router,
     private router:         LocationStrategy,
     private paramRoute:     ActivatedRoute,
     private toast:          ToastController,
     private ionAlert:       AlertController
     ) {} 
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.checkProductInput();
+
+    this.toast.create({
+      message: "Editando, espere...",
+      animated: true,
+      duration: 3500
+    }).then(htmlToast => this.uiMessages[0] = htmlToast);
+    this.toast.create({
+      message: "Producto editado correctamente.",
+      animated: true,
+      duration: 3500
+    }).then(htmlToast => this.uiMessages[1] = htmlToast);
+    this.ionAlert.create({
+      message: "Ha ocurrido un error. Su producto no se editará.",
+      animated: true,
+      buttons: [
+        {
+          text: 'Confirmar',
+          role: 'confirm'
+        }
+      ]
+    }).then(htmlAlert => this.uiMessages[2] = htmlAlert);
+
   }
 
 
@@ -115,8 +140,10 @@ export class EditProductComponent  implements OnInit {
   }
 
   updateProduct() {
-    //alert(`Tu producto ${this.product.name} va a ser agregado a la base de datos del backend de la Salo Shop. (Texto provisional no se guarda en el backend).`);
-    
+
+    this.router.back();
+    this.uiMessages[0].present();
+
     this.productService.update( new Product(
       this.iProduct.pid, 
       this.form.get('name').value, 
@@ -127,40 +154,10 @@ export class EditProductComponent  implements OnInit {
       this.form.get('description').value
     ))
       .subscribe({
-        next: () => {
-          this.router.back();
-
-          this.toast.create({
-            message: "Editando, espere...",
-            animated: true,
-            duration: 3500
-          }).then(htmlToast => htmlToast.present() );
-        }, 
-        error: (reason) => {
-          this.router.back();
-          
-          this.ionAlert.create({
-            message: "Ha ocurrido un error. Su producto no se editará.",
-            animated: true,
-            buttons: [
-              {
-                text: 'Confirmar',
-                role: 'confirm',
-                //handler: () => this.router.back()
-              }
-            ]
-          }).then(htmlToast => htmlToast.present() );
-        },
-        complete: () => {
-          this.toast.create({
-            message: "Producto editado correctamente.",
-            animated: true,
-            duration: 3500
-          }).then(htmlToast => htmlToast.present() );
-
-          //this.router.back()
-        }
+        error:    (reason) => this.uiMessages[2].present(),
+        complete: ()       => this.uiMessages[1].present()
       });
+
   }
 
   private priceNumberToString(price: number): string {

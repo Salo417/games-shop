@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 import { IProduct } from 'src/app/shared/resources/product/IProduct';
 import { Product } from 'src/app/shared/models/products/models/Product';
 import { ProductsApiService } from '../../../core/services/connections/products-api.service';
@@ -33,7 +33,7 @@ export class ProductsService implements Dao<IProduct> {
   }
 
   async save(...product: IProduct[]) {
-
+    
     product.forEach( async (value, index, array) => {
       console.debug('Starting connection to server...');
       await lastValueFrom( this.productApi.postProduct(value) )
@@ -45,7 +45,14 @@ export class ProductsService implements Dao<IProduct> {
 
   }
 
-  update(product: IProduct) {
+  update(product: IProduct): Observable<Object> {
+
+    /*
+    this.productApi.updateProduct(product)
+      .subscribe( {
+        error: (reason) => { throw new Error(reason) }
+      });
+     */
     return this.productApi.updateProduct(product);
   }
 
