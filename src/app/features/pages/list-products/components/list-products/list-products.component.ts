@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScrollCustomEvent } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { ProductsService } from 'src/app/features/services/product-service/products.service';
 import { Product } from 'src/app/shared/models/products/models/Product';
+import { DeleteProductViewComponent } from '../delete-product-view/delete-product-view.component';
 
 @Component({
   selector: 'app-list-products',
@@ -17,17 +18,45 @@ export class ListProductsComponent implements OnInit {
   constructor(
     private productService: ProductsService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modal: ModalController
     ) { }
 
   ngOnInit() { this.loadProducts(); }
 
   protected edit(prod: Product) {
-    alert(`Editado ${prod.name}`);
+    //alert(`Editado ${prod.name}`);
+    //console.log( await this.productService.getById(prod.pid) );
+    this.router.navigate(['edit-product', prod.pid], { relativeTo: this.route });
   }
 
   protected delete(prod: Product) {
     alert(`¿Estás seguro de que deseas borrar ${prod.name}?`);
+    /*
+    this.modal.create({
+      component: DeleteProductViewComponent,
+      componentProps?: { [key: string]: any };
+      presentingElement?: HTMLElement;
+      showBackdrop?: boolean;
+      backdropDismiss?: boolean;
+      cssClass?: string | string[];
+      animated?: boolean;
+      canDismiss?: boolean | ((data?: any, role?: string) => Promise<boolean>);
+    
+      mode?: 'ios' | 'md';
+      keyboardClose?: boolean;
+      id?: string;
+      htmlAttributes?: { [key: string]: any };
+    
+      enterAnimation?: AnimationBuilder;
+      leaveAnimation?: AnimationBuilder;
+    
+      breakpoints?: number[];
+      initialBreakpoint?: number;
+      backdropBreakpoint?: number;
+      handle?: boolean;
+    });
+    */
   }
 
   protected loadProducts(): Promise<void> {
@@ -62,3 +91,12 @@ export class ListProductsComponent implements OnInit {
     this.router.navigate(['add-product'], { relativeTo: this.route })
   }
 }
+
+/*
+ * Created by Salo417 (GitHub/email: schooldayssal@gmail.com) on Apr-13-2023.
+ * This source code is governed by:
+ * 
+ * BSD 3-Clause License (That can be found in LICENCE file)
+ *
+ * Copyright (c) 2023, Salo417 (GitHub/email: schooldayssal@gmail.com)
+ */

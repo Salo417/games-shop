@@ -4,26 +4,38 @@ import { AddProductComponent } from './components/add-product/add-product.compon
 import { ListProductsComponent } from './components/list-products/list-products.component';
 
 import { ListProductsPage } from './list-products.page';
+import { EditProductComponent } from './components/edit-product/edit-product.component';
 
 const routes: Routes = [
   {
     path: '',
     component: ListProductsPage,
     children: [
+      /*
       {
         path: '',
-        redirectTo: 'list-products',
-        pathMatch: 'full'
-      },
-      {
-        path: 'list-products',
         component: ListProductsComponent
       },
       {
         path: 'add-product',
         component: AddProductComponent
+        //loadComponent: () => import('./components/add-product/add-product.component').then( m => m.AddProductComponent)
+      },
+      {
+        path: 'edit-product/:pid',
+        component: EditProductComponent
       }
+      */
     ]
+  },
+  {
+    path: 'add-product',
+    component: AddProductComponent
+    //loadComponent: () => import('./components/add-product/add-product.component').then( m => m.AddProductComponent)
+  },
+  {
+    path: 'edit-product/:pid',
+    component: EditProductComponent
   }
 ];
 

@@ -6,8 +6,6 @@
 
 <ion-content [scrollY]="false">
 
-
-
 <!--
 <ion-nav-link routerDirection="forward">
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
@@ -17,7 +15,29 @@
   </ion-fab>
 </ion-nav-link>
 -->
+<!--
   <ion-router-outlet></ion-router-outlet>
+-->
+
+    <cdk-virtual-scroll-viewport itemSize="200" [minBufferPx]="1000" [maxBufferPx]="1000" class="ion-content-scroll-host cdk-virtual-scroll-viewport">
+      <product-view 
+        *cdkVirtualFor="let p of listOfProducts" 
+        [product]="p" 
+        (editEvent)="edit($event)" 
+        (delEvent)="delete($event)">
+      </product-view>
+    </cdk-virtual-scroll-viewport>
+  
+    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  
+  
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button (click)="goToAddProductView()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
 
 </ion-content>
 

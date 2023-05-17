@@ -9,7 +9,7 @@ import { Product } from '../models/Product';
 
 
 @Component({
-  selector: 'app-product-view',
+  selector: 'product-view',
   templateUrl: './product-view.component.html',
   styleUrls: ['./product-view.component.scss'],
 })
@@ -23,7 +23,7 @@ export class ProductViewComponent implements OnInit, OnDestroy {
   // PROPERTIES
   //onEdit:   Observable<IProduct>;//{onSuccess: () => void, onRejected: (error: Error) => void};
   //onDelete: Observable<void>;
-  onDelete: () => void;
+  //onDelete: () => void;
 
   protected controller: ProductController;
 
@@ -37,14 +37,14 @@ export class ProductViewComponent implements OnInit, OnDestroy {
     this.controller = new ProductController(this.product);
   }
 
-  ngOnDestroy(): void { this.onDelete(); }
+  ngOnDestroy(): void { /*this.onDelete();*/ }
 
   
   // METHODS
   protected edit() {
     //this.onEdit.onSuccess();
     this.editEvent.emit( Product.generateProduct(this.controller.product) );
-    this.controller.product = this.product;
+    // Editado despues this.controller.product = this.product;
     /*
     this.onEdit.subscribe( (prod) => {
       this.controller.product = prod;

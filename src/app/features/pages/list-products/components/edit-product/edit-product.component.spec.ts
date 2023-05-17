@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ListProductsComponent } from './list-products.component';
+import { EditProductComponent } from './edit-product.component';
 
-describe('ListProductsComponent', () => {
-  let component: ListProductsComponent;
-  let fixture: ComponentFixture<ListProductsComponent>;
+describe('EditProductComponent', () => {
+  let component: EditProductComponent;
+  let fixture: ComponentFixture<EditProductComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListProductsComponent ],
+      declarations: [ EditProductComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ListProductsComponent);
+    fixture = TestBed.createComponent(EditProductComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
@@ -24,7 +24,7 @@ describe('ListProductsComponent', () => {
 });
 
 /*
- * Created by Salo417 (GitHub/email: schooldayssal@gmail.com) on Apr-13-2023.
+ * Created by Salo417 (GitHub/email: schooldayssal@gmail.com) on May-04-2023.
  * This source code is governed by:
  * 
  * BSD 3-Clause License (That can be found in LICENCE file)

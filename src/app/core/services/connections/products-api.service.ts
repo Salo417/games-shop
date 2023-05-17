@@ -79,6 +79,27 @@ export class ProductsApiService {
       }));
   }
 
+  public getProduct(id: number): Observable<IProduct> {
+    ProductsApiService.AUTH_API.JWT = sessionStorage.getItem("jwt");
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${ProductsApiService.AUTH_API.JWT}`,
+      'Content-Type': 'application/json; charset=utf-8',
+      'Accept': 'application/json'
+    });
+
+    return this.http.get<IProduct>(`${ProductsApiService.FULL_API_URL}/${id}`, {headers, responseType: 'json'})
+      .pipe( map<any, Product>( (response) => {
+        return new Product(
+          response.data.id,
+          response.data.attributes.name,
+          response.data.attributes.price,
+          response.data.attributes.quantity,
+          response.data.attributes.release_date,
+          response.data.attributes.platform,
+          response.data.attributes.description);
+      }));
+  }
+
   public postProduct(product: IProduct): Observable<Object> {
     ProductsApiService.AUTH_API.JWT = sessionStorage.getItem("jwt");    // Quizas a mejorar el jwt quizas poniendolo en una var static independiente o poner en constructor
     let prd = {
@@ -106,11 +127,26 @@ export class ProductsApiService {
       'Accept': 'application/json'
     });
 
-    return this.http.delete(ProductsApiService.FULL_API_URL, { headers, responseType: "json" });
+    return this.http.delete(`${ProductsApiService.FULL_API_URL}/${id}`, { headers, responseType: "json" });
   }
 
   public updateProduct(product: IProduct) {
+    ProductsApiService.AUTH_API.JWT = sessionStorage.getItem("jwt");    // Quizas a mejorar el jwt quizas poniendolo en una var static independiente o poner en constructor
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${ProductsApiService.AUTH_API.JWT}`,
+      'Content-Type': 'application/json; charset=utf-8',
+      'Accept': 'application/json'
+    });
+    const p = {
+      name:         product.name,
+      platform:     product.platform,
+      price:        product.price,
+      release_date: product.releaseDate,
+      description:  product.description,
+      quantity:     product.quantity
+    };
 
+    return this.http.put(`${ProductsApiService.FULL_API_URL}/${product.pid}`, JSON.stringify({data: p}), { headers, responseType: "json" });
   }
 
   public get restProductConne() {
@@ -126,3 +162,12 @@ export class ProductsApiService {
     //get<Product[]>(ProductsApiService.FULL_API_URL, { headers, responseType: 'json' });
   }
 }
+
+/*
+ * Created by Salo417 (GitHub/email: schooldayssal@gmail.com) on Apr-13-2023.
+ * This source code is governed by:
+ * 
+ * BSD 3-Clause License (That can be found in LICENCE file)
+ *
+ * Copyright (c) 2023, Salo417 (GitHub/email: schooldayssal@gmail.com)
+ */

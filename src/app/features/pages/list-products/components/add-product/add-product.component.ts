@@ -1,19 +1,19 @@
-import { Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EPlatforms } from 'src/app/shared/resources/product/EPlatforms';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { IProduct } from 'src/app/shared/resources/product/IProduct';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProductForms } from './classes/ProductForm';
-import { IonInput } from '@ionic/angular';
-import { DecimalValidator } from './directives/decimal-validator.directive';
+import { AlertController, IonInput, ToastController } from '@ionic/angular';
+import { DecimalValidator } from '../../directives/decimal-validator.directive';
 import { ProductsService } from 'src/app/features/services/product-service/products.service';
 import { Product } from 'src/app/shared/models/products/models/Product';
+import { LocationStrategy } from '@angular/common';
 
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.scss'],
 })
-export class AddProductComponent implements OnInit, OnChanges {
+export class AddProductComponent implements OnInit {
   /*
   @ViewChild('i-product-name') productName: IonInput;
   @ViewChild('i-platform')     platform:    IonInput;
@@ -45,34 +45,102 @@ export class AddProductComponent implements OnInit, OnChanges {
     quantity:    new FormControl(this.product.quantity,    [Validators.required, Validators.min(0)]),
     description: new FormControl(this.product.description, Validators.maxLength(200))
   });
+  // 0 - Toast "Agregando producto, espere..."
+  // 1 - Toast "Producto añadido correctamente."
+  // 2 - Alert "Ha ocurrido un error. Su producto no se ha añadido."
+  // 3 - Alert "Se va a agregar su producto." Confirm/Cancel
+  private uiMessages: Array<HTMLIonToastElement | HTMLIonAlertElement> = new Array(4);
 
   
-  constructor(private productService: ProductsService) {} 
+  constructor(
+    private productService: ProductsService, 
+    private ionAlert:       AlertController, 
+    private toast:          ToastController,
+    private router:    LocationStrategy
+    ) {} 
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('Cambios detectados.');
-    this.form
-      .setValue({
-        name:        this.product.name,
-        platform:    this.product.platform,
-        price:       Number( this.product.price.replace(',', '.') ),
-        releaseDate: this.product.releaseDate,
-        quantity:    this.product.quantity,
-        description: this.product.description
-      });
-      /*
-      .get(['name', 'platform', 'price', 'releaseDate', 'quantity', 'description'])
-      .setValue({
-        name: this.product.name,
-        platform: this.product.platform,
-        price
-      });
-      */
-     console.log('El formulario a cambiado a: ');
-     console.log(this.form.getRawValue());
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   console.log('Cambios detectados.');
+  //   this.form
+  //     .setValue({
+  //       name:        this.product.name,
+  //       platform:    this.product.platform,
+  //       price:       Number( this.product.price.replace(',', '.') ),
+  //       releaseDate: this.product.releaseDate,
+  //       quantity:    this.product.quantity,
+  //       description: this.product.description
+  //     });
+  //     /*
+  //     .get(['name', 'platform', 'price', 'releaseDate', 'quantity', 'description'])
+  //     .setValue({
+  //       name: this.product.name,
+  //       platform: this.product.platform,
+  //       price
+  //     });
+  //     */
+  //    console.log('El formulario a cambiado a: ');
+  //    console.log(this.form.getRawValue());
+  // }
+
+  ngOnInit(): void {
+
+    this.toast.create({
+      message: "Agregando producto, espere...",
+      animated: true,
+      duration: 3500
+    }).then(htmlToast => this.uiMessages[0] = htmlToast);
+    this.toast.create({
+      message: "Producto añadido correctamente.",
+      animated: true,
+      duration: 3500
+    }).then(htmlToast => this.uiMessages[1] = htmlToast);
+    this.ionAlert.create({
+      message: "Ha ocurrido un error. Su producto no se ha añadido.",
+      animated: true,
+      buttons: [
+        {
+          text: 'Confirmar',
+          role: 'confirm',
+          handler: () => this.router.back()
+        }
+      ]
+    }).then(htmlAlert => this.uiMessages[2] = htmlAlert);
+    this.ionAlert.create({
+      message: "Se va a agregar su producto.",
+      buttons: [
+        {
+          text: "Cancelar",
+          role: 'cancel'
+        },
+        {
+          text: "Confirmar",
+          role: 'confirm',
+          handler: () => {
+            this.router.back();
+            this.uiMessages[0].present();
+
+            this.productService.save( new Product(
+              undefined, 
+              this.form.get('name').value, 
+              this.form.get('price').value, 
+              this.form.get('quantity').value, 
+              (this.form.get('releaseDate').value as Date), 
+              this.form.get('platform').value, 
+              this.form.get('description').value
+            ))
+              .then( () => {
+                this.uiMessages[1].present();
+              })
+              .catch( (reason) => {
+                this.uiMessages[2].present();
+              });
+          }
+        }
+      ],
+      animated: true
+    }).then(htmlIonAlert => this.uiMessages[3] = htmlIonAlert);
+
   }
-
-  ngOnInit(): void {}
 
 
   mostrarProducto() {
@@ -144,24 +212,7 @@ export class AddProductComponent implements OnInit, OnChanges {
       });
   }
 
-  addProduct() {
-    alert(`Tu producto ${this.product.name} va a ser agregado a la base de datos del backend de la Salo Shop. (Texto provisional no se guarda en el backend).`);
-    this.productService.save( new Product(
-      undefined, 
-      this.form.get('name').value, 
-      this.form.get('price').value, 
-      this.form.get('quantity').value, 
-      (this.form.get('releaseDate').value as Date), 
-      this.form.get('platform').value, 
-      this.form.get('description').value
-    ))
-      .then( () => {
-        console.debug('Producto añadido correctamente.');
-      })
-      .catch( (reason) => {
-        console.debug(`Ha ocurrido un error inesperado:\n${reason}`);
-      });
-  }
+  addProduct() { this.uiMessages[3].present(); }
 
 }
 
