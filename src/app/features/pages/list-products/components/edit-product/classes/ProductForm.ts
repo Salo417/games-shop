@@ -6,12 +6,12 @@ import { FormControl } from "@angular/forms";
 import { EPlatforms } from "src/app/shared/resources/product/EPlatforms";
 
 export interface ProductForms {
-    name:        FormControl<string>;
-    platform:    FormControl<string | EPlatforms>;
-    price:       FormControl<number>;
-    releaseDate: FormControl<Date | string | undefined>;
-    quantity:    FormControl<number>;
-    description: FormControl<string | undefined>;
+    name:        FormControl<string | null>;
+    platform:    FormControl<string | EPlatforms | null>;
+    price:       FormControl<number | null>;
+    releaseDate: FormControl<Date | string | null>;
+    quantity:    FormControl<number | null>;
+    description: FormControl<string | null>;
 }
 
 /*

@@ -101,7 +101,7 @@ export class ListProductsPage implements OnInit {
     this.router.navigate(['add-product'], { relativeTo: this.route })
   }
 
-  protected onAddProduct(){
+  protected onAddProduct() {
     this.router.navigate(['add-product'], {relativeTo:this.route});
   }
 }

@@ -15,6 +15,7 @@ export enum Platforms {
   PC             = 'PC'
 }
 
+/*
 export class ApiProduct {
   id: number;
   name: string;
@@ -24,6 +25,7 @@ export class ApiProduct {
   quantity: number;
   releaseDate: Date;
 }
+*/
 
 @Injectable({
   providedIn: 'root'

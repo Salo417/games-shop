@@ -10,6 +10,7 @@ import { IProduct } from 'src/app/shared/resources/product/IProduct';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { LocationStrategy } from '@angular/common';
+import { TmpProduct } from './classes/TmpProduct';
 
 @Component({
   selector: 'app-edit-product',
@@ -17,16 +18,16 @@ import { LocationStrategy } from '@angular/common';
   styleUrls: ['./edit-product.component.scss'],
 })
 export class EditProductComponent  implements OnInit {
-  @Input('product') iProduct: IProduct;
+  @Input('product') iProduct: IProduct | undefined;
 
   protected platforms = Object.values(EPlatforms);
-  protected product = {
+  protected product: TmpProduct = {
     name:        '',
     platform:    '',
     price:       '0,00',
     description: '',
     quantity:    0,
-    releaseDate: undefined
+    releaseDate: null
   }
   protected form = new FormGroup<ProductForms>({
       name:        new FormControl(this.product.name,        [Validators.required]),
@@ -120,7 +121,7 @@ export class EditProductComponent  implements OnInit {
   }
 
   refreshForm() {
-    let relsDate: (string | Date | undefined);
+    let relsDate: (string | Date | null) = null;
 
     if (typeof(this.product.releaseDate) === 'string') {
       relsDate = new Date(this.product.releaseDate);
@@ -145,13 +146,13 @@ export class EditProductComponent  implements OnInit {
     this.uiMessages[0].present();
 
     this.productService.update( new Product(
-      this.iProduct.pid, 
-      this.form.get('name').value, 
-      this.form.get('price').value, 
-      this.form.get('quantity').value, 
-      (this.form.get('releaseDate').value as Date), 
-      this.form.get('platform').value, 
-      this.form.get('description').value
+      this.iProduct!.pid, 
+      this.form.get('name')!.value!, 
+      this.form.get('price')!.value!, 
+      this.form.get('quantity')!.value!, 
+      (this.form.get('releaseDate')!.value as Date), 
+      this.form.get('platform')!.value!, 
+      this.form.get('description')!.value!
     ))
       .subscribe({
         error:    (reason) => this.uiMessages[2].present(),
@@ -188,12 +189,12 @@ export class EditProductComponent  implements OnInit {
         await this.productService.getById( Number(pid) ).then(product => this.iProduct = product);
 
         this.product = {
-          name:        (this.iProduct.name != undefined) ? this.iProduct.name : '',
-          platform:    (this.iProduct.platform != undefined) ? this.iProduct.platform : '',
-          price:       this.priceNumberToString(this.iProduct.price),
-          description: (this.iProduct.description != undefined) ? this.iProduct.description : '',
-          quantity:    this.iProduct.quantity,
-          releaseDate: this.iProduct.releaseDate
+          name:        (this.iProduct!.name != undefined) ? this.iProduct!.name : '',
+          platform:    (this.iProduct!.platform != undefined) ? this.iProduct!.platform : '',
+          price:       this.priceNumberToString(this.iProduct!.price),
+          description: (this.iProduct!.description != undefined) ? this.iProduct!.description : '',
+          quantity:    this.iProduct!.quantity,
+          releaseDate: this.iProduct!.releaseDate
         }
 
         this.refreshForm();

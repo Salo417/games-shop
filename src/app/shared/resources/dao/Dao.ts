@@ -8,9 +8,9 @@ export interface Dao<T> {
     
     getAll(): Iterable<T | [any, T]> | Promise< T | Iterable<T | [any, T]> >;
     
-    save(t: T);
+    save(t: T): any;
     
-    update( t: (T | number) );
+    update( t: (T | number) ): any;
     
-    delete(t: (T | number));
+    delete(t: (T | number)): any;
 }

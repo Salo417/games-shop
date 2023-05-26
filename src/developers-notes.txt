@@ -1,6 +1,0 @@
-
-ERRORS/SUGGESTIONS:
-
-    * Math floor doesn't work well sometimes with some numbers that finish in .9 like 69.99. In features/pages/list-products/components/add-product and features/pages/list-products/components/edit-product.
-
-    * Change JWT location instead of sessionStorage, some ideas can be creating a separatly static variable that storage JWT once when statring or maybe start the variable into constructor once.

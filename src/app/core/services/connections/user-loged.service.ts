@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
-import { IUser } from 'src/app/core/classes/IUser';
+//import { IUser } from 'src/app/core/classes/IUser';
+import { IUser } from 'src/app/shared/resources/user/IUser';
 import { Observable, throwError, lastValueFrom } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpContext, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 
 
 export class User implements IUser {
-  id:        number;
-  username:  string;
-  lastname:  string;
-  email:     string;
-  password?: string;
-  picture?:  string;
+  id:       number;
+  username: string;
+  //lastname:  string;
+  email:    string;
+  password: string | undefined | null;
+  picture:  string | undefined | null;
 
   constructor(id: number, userName: string, email: string, password?: string, picture?: string) {
     this.id       = id;
@@ -21,7 +22,8 @@ export class User implements IUser {
     this.picture  = picture;
   }
 
-  toString(): string { return `id: ${this.id}, username: ${this.username}, lastname: ${this.lastname}, email: ${this.email}, password: ${this.password}`; }
+  //toString(): string { return `id: ${this.id}, username: ${this.username}, lastname: ${this.lastname}, email: ${this.email}, password: ${this.password}`; }
+  toString(): string { return `id: ${this.id}, username: ${this.username}, email: ${this.email}, password: ${this.password}`; }
 }
 
 @Injectable({
@@ -44,7 +46,7 @@ export class UserLogedService {
   }
   private static readonly FULL_API_AUTH = `http://${UserLogedService.AUTH_API.DOM}:${UserLogedService.AUTH_API.PORT}/${UserLogedService.AUTH_API.ENDP_URL}`;
 
-  private _user: User;
+  private _user: User | undefined;
 
 
   // CONSTRUCTORES
@@ -57,16 +59,18 @@ export class UserLogedService {
   }
 
   // GETTERS
-  public get user(): (User | null) { return this._user; }
+  public get user(): (User | undefined) { return this._user; }
 
   // SETTERS
-  public set user(user: User) {
+  /*
+  public set user(user!: User | undefined) {
     if (user.email.length <= 0) {
       console.log("Cadena no puede estár vacía. Arreglar esto en el futuro con throw exception y password también y otras variables y en el otro setter.");
     }
 
     this._user = user;
   }
+  */
 
 
   // METHODS
@@ -77,7 +81,7 @@ export class UserLogedService {
    * @returns 
    */
   private httpErrorGenerator(error: HttpErrorResponse, caught: Observable<string>): Observable<never> {
-    let retErrorException: Error = null;
+    let retErrorException: Error | undefined;
 
     if (error.status === 0) {
       console.log(error.error);
@@ -96,7 +100,7 @@ export class UserLogedService {
    * @param email User's email from who wants login.
    * @param password The password introduced by user.
    */
-  public async authUser(email: string, password: string): Promise<IUser> {
+  public async authUser(email: string, password: string): Promise<IUser | undefined> {
     //let ret: (IUser | Error);
     let credentialsJson = JSON.stringify({identifier: email, password: password});
     let options: { 
