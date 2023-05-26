@@ -15,7 +15,7 @@ import { Product } from '../models/Product';
 })
 export class ProductViewComponent implements OnInit, OnDestroy {
   // COMPONENT COMMUNICATIONS
-  @Input()  product: IProduct;
+  @Input()  product!: IProduct;
   @Output() delEvent  = new EventEmitter<Product>();
   @Output() editEvent = new EventEmitter<Product>();
 
@@ -25,7 +25,7 @@ export class ProductViewComponent implements OnInit, OnDestroy {
   //onDelete: Observable<void>;
   //onDelete: () => void;
 
-  protected controller: ProductController;
+  protected controller!: ProductController;
 
 
   // CONSTRUCTOR

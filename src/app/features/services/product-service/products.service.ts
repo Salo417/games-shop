@@ -4,6 +4,7 @@ import { IProduct } from 'src/app/shared/resources/product/IProduct';
 import { Product } from 'src/app/shared/models/products/models/Product';
 import { ProductsApiService } from '../../../core/services/connections/products-api.service';
 import { Dao } from 'src/app/shared/resources/dao/Dao';
+import { ErrUserPidNotDefined } from 'src/app/shared/errors/ErrUserPidNotDefined';
 
 @Injectable({
   providedIn: "platform"
@@ -15,7 +16,7 @@ export class ProductsService implements Dao<IProduct> {
 
   // METHODS
   async getAll(): Promise<Product[]> {
-    let products: Product[];
+    let products: Product[] = [];
 
     await lastValueFrom( this.productApi.getAllProducts() )
       .then( listProduct => {
@@ -64,11 +65,15 @@ export class ProductsService implements Dao<IProduct> {
           throw new Error(reason);
         });
     } else if (typeof id == 'object') {
-      await lastValueFrom( this.productApi.deleteProduct(id.pid) )
-        .then( (value) => { } )
-        .catch( (reason) => {
-          throw new Error(reason);
-        });
+      if (typeof(id.pid) == 'number') {
+        await lastValueFrom( this.productApi.deleteProduct(id.pid) )
+          .then( (value) => { } )
+          .catch( (reason) => {
+            throw new Error(reason);
+          });
+      } else {
+        throw new ErrUserPidNotDefined();
+      }
     } else {
       console.debug('parameter is not number or object.');
     }

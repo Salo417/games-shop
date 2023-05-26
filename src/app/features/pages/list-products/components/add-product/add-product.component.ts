@@ -5,8 +5,9 @@ import { ProductForms } from './classes/ProductForm';
 import { AlertController, IonInput, ToastController } from '@ionic/angular';
 import { DecimalValidator } from '../../directives/decimal-validator.directive';
 import { ProductsService } from 'src/app/features/services/product-service/products.service';
-import { Product } from 'src/app/shared/models/products/models/Product';
+import { Product } from 'src/app/shared/resources/product/Product';
 import { LocationStrategy } from '@angular/common';
+import { Filesystem } from '@capacitor/filesystem';
 
 @Component({
   selector: 'app-add-product',
@@ -30,7 +31,7 @@ export class AddProductComponent implements OnInit {
     price:       '0,00',
     description: '',
     quantity:    0,
-    releaseDate: undefined
+    releaseDate: null
   }
   protected form = new FormGroup<ProductForms>({
     name:        new FormControl(this.product.name,        [Validators.required]),
@@ -120,13 +121,13 @@ export class AddProductComponent implements OnInit {
             this.uiMessages[0].present();
 
             this.productService.save( new Product(
-              undefined, 
-              this.form.get('name').value, 
-              this.form.get('price').value, 
-              this.form.get('quantity').value, 
-              (this.form.get('releaseDate').value as Date), 
-              this.form.get('platform').value, 
-              this.form.get('description').value
+              null, 
+              this.form.get('name')!.value!, 
+              this.form.get('price')!.value!, 
+              this.form.get('quantity')!.value!, 
+              (this.form.get('releaseDate')!.value as Date), 
+              this.form.get('platform')!.value!, 
+              this.form.get('description')!.value!
             ))
               .then( () => {
                 this.uiMessages[1].present();
@@ -193,7 +194,7 @@ export class AddProductComponent implements OnInit {
   }
 
   refreshForm() {
-    let relsDate: (string | Date | undefined);
+    let relsDate: (string | Date | null) = null;
 
     if (typeof(this.product.releaseDate) === 'string') {
       relsDate = new Date(this.product.releaseDate);
@@ -210,6 +211,10 @@ export class AddProductComponent implements OnInit {
         quantity:    this.product.quantity,
         description: this.product.description
       });
+  }
+
+  addImage() {
+    Filesystem
   }
 
   addProduct() { this.uiMessages[3].present(); }

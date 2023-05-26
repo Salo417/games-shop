@@ -7,13 +7,13 @@ import { IProduct } from "./IProduct";
 
 export class Product implements IProduct {
     // FIELDS OF DATA CLASS (MODEL)
-    private _pid:          number;
-    private _name:         string;
-    private _platform?:    string;
-    private _price:        number;
-    private _description?: string;
-    private _quantity:     number;
-    private _releaseDate:  Date;
+    private _pid!:          number;
+    private _name!:         string;
+    private _platform:      string | undefined | null;
+    private _price!:        number;
+    private _description:   string | undefined | null;
+    private _quantity!:     number;
+    private _releaseDate!:  Date;
 
     // GETTERS
     /**
@@ -35,7 +35,7 @@ export class Product implements IProduct {
      * product is merchandising choose MERCHANDISING platform.
      * @returns A platform enum or string name that says which platform is for the product.
      */
-    public get platform(): (string | undefined) {
+    public get platform(): (string | undefined | null) {
         return this._platform;
     }
     /**
@@ -47,7 +47,7 @@ export class Product implements IProduct {
     /**
      * Description of the product.
      */
-    public get description(): (string | undefined) {
+    public get description(): (string | undefined | null) {
         return this._description;
     }
     /**
@@ -100,7 +100,7 @@ export class Product implements IProduct {
      * Platform is optional property.
      * @throws If platform string isn't registered in EPlatfoms enum.
      */
-    public set platform(platform: (string | undefined)) {
+    public set platform(platform: (string | undefined | null)) {
         /*
         let ok = false;
         for (const p in EPlatforms) {
@@ -132,7 +132,7 @@ export class Product implements IProduct {
     /**
      * The description of product. It can be undefined.
      */
-    public set description(description: (string | undefined)) {
+    public set description(description: (string | undefined | null)) {
         this._description = description;
     }
     /**
@@ -157,8 +157,8 @@ export class Product implements IProduct {
 
 
     // CONSTRUCTORS
-    public constructor(pid: number, name: string, price: number, quantity: number, relDate: Date, platform?: (string | undefined), description?: (string | undefined)) {
-        this.pid         = pid;
+    public constructor(pid: (number | null | undefined), name: string, price: number, quantity: number, relDate: Date, platform?: (string | null), description?: (string | null)) {
+        this.pid         = (pid != null) ? pid : 0;
         this.name        = name;
         this.platform    = platform;
         this.price       = price;

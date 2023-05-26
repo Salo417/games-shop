@@ -5,9 +5,9 @@
 export interface IProduct {
     pid?:          number;
     name:          string;
-    platform?:     string;
+    platform?:     string | null;
     price:         number;
-    description?:  string;
+    description?:  string | null;
     quantity:      number;
     releaseDate:   Date;
 }

@@ -3,7 +3,8 @@ import { Location } from '@angular/common'
 import { AlertController, IonInput } from '@ionic/angular';
 import { UserLogedService } from 'src/app/core/services/connections/user-loged.service';
 import { FormControl } from '@angular/forms';
-import { IUser } from 'src/app/core/classes/IUser';
+import { IUser } from 'src/app/shared/resources/user/IUser';
+//import { IUser } from 'src/app/core/classes/IUser';
 
 @Component({
   selector:    'app-sign-up',
@@ -11,8 +12,8 @@ import { IUser } from 'src/app/core/classes/IUser';
   styleUrls:   ['./sign-up.page.scss'],
 })
 export class SignUpPage implements OnInit {
-  @ViewChild('user')     user: IonInput;
-  @ViewChild('password') pass: IonInput;
+  @ViewChild('user')     user: IonInput | undefined;
+  @ViewChild('password') pass: IonInput | undefined;
 
   userName:     FormControl = new FormControl('');
   formEmail:    FormControl = new FormControl('');

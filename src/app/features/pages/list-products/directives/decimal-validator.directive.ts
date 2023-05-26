@@ -7,7 +7,7 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator, ValidatorF
   providers: [{provide: NG_VALIDATORS, useExisting: DecimalValidator, multi: true}]
 })
 export class DecimalValidator implements Validator {
-  private _numDecimals: number;   // The decimals amount that is allowed
+  private _numDecimals!: number;   // The decimals amount that is allowed
   @Input('numDecimals') set numDecimals(numDecimals: number) { 
     ( DecimalValidator.validNumDecimals(numDecimals) ) ? this._numDecimals = numDecimals : { } 
   };
