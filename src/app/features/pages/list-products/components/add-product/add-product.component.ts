@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { EPlatforms } from 'src/app/shared/resources/product/EPlatforms';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProductForms } from './classes/ProductForm';
-import { AlertController, IonInput, ToastController } from '@ionic/angular';
+import { AlertController, IonInput, Platform, ToastController } from '@ionic/angular';
 import { DecimalValidator } from '../../directives/decimal-validator.directive';
 import { ProductsService } from 'src/app/features/services/product-service/products.service';
-import { Product } from 'src/app/shared/resources/product/Product';
 import { LocationStrategy } from '@angular/common';
-import { Filesystem } from '@capacitor/filesystem';
+import { Directory, Encoding, Filesystem } from '@capacitor/filesystem';
+import { TmpProduct } from './classes/TmpProduct';
+import { Product } from 'src/app/shared/resources/product/Product';
 
 @Component({
   selector: 'app-add-product',
@@ -25,12 +26,13 @@ export class AddProductComponent implements OnInit {
   */
 
   protected platforms = Object.values(EPlatforms);
-  protected product = {
+  protected product: TmpProduct = {
     name:        '',
     platform:    '',
     price:       '0,00',
     description: '',
     quantity:    0,
+    picture:     null,
     releaseDate: null
   }
   protected form = new FormGroup<ProductForms>({
@@ -57,7 +59,8 @@ export class AddProductComponent implements OnInit {
     private productService: ProductsService, 
     private ionAlert:       AlertController, 
     private toast:          ToastController,
-    private router:    LocationStrategy
+    private router:    LocationStrategy,
+    private platform: Platform
     ) {} 
 
   // ngOnChanges(changes: SimpleChanges): void {
@@ -213,12 +216,42 @@ export class AddProductComponent implements OnInit {
       });
   }
 
-  addImage() {
-    Filesystem
+  async addImage() {
+    /*
+    const imagePath = await Dialog.prompt({
+      title: 'Product Picture',
+      message: 'Choose a product image.',
+      okButtonTitle: 'OK',
+      cancelButtonTitle: 'Cancel'
+    });
+    */
+   console.debug("Enter in addImage() method.");
+
+   const fileDialog = document.createElement<'input'>('input');
+   fileDialog.type = 'file';
+   fileDialog.onchange = ev => {
+     if (ev.target != null) {
+       this.product.picture = (ev.target as any).files[0];
+       console.debug(this.product.picture);
+     }
+   }
+   fileDialog.click();
+
+   if ( this.platform.is('pwa') ) {
+    console.debug("Enter in if pwa.");
+
+   }
+   /*
+   const readed = await Filesystem.readdir({
+    path: './',
+    directory: Directory.Documents,
+   });
+   */
+
+   //console.debug(readed);
   }
 
   addProduct() { this.uiMessages[3].present(); }
-
 }
 
 /*

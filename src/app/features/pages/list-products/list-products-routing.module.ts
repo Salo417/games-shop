@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AddProductComponent } from './components/add-product/add-product.component';
-import { ListProductsComponent } from './components/list-products/list-products.component';
 
 import { ListProductsPage } from './list-products.page';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
