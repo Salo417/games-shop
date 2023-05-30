@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EPlatforms } from 'src/app/shared/resources/product/EPlatforms';
-import { DecimalValidator } from '../../directives/decimal-validator.directive';
+import { DecimalValidator } from '../../directives/decimal-validator/decimal-validator.directive';
 import { ProductsService } from 'src/app/features/services/product-service/products.service';
-import { AlertController, IonInput, ToastController } from '@ionic/angular';
+import { AlertController, IonInput, Platform, ToastController } from '@ionic/angular';
 import { Product } from 'src/app/shared/resources/product/Product';
 import { ProductForms } from './classes/ProductForm';
 import { IProduct } from 'src/app/shared/resources/product/IProduct';
@@ -27,6 +27,7 @@ export class EditProductComponent  implements OnInit {
     price:       '0,00',
     description: '',
     quantity:    0,
+    picture:     null,
     releaseDate: null
   }
   protected form = new FormGroup<ProductForms>({
@@ -53,7 +54,8 @@ export class EditProductComponent  implements OnInit {
     private router:         LocationStrategy,
     private paramRoute:     ActivatedRoute,
     private toast:          ToastController,
-    private ionAlert:       AlertController
+    private ionAlert:       AlertController,
+    private platform:       Platform
     ) {} 
 
   async ngOnInit() {
@@ -194,11 +196,47 @@ export class EditProductComponent  implements OnInit {
           price:       this.priceNumberToString(this.iProduct!.price),
           description: (this.iProduct!.description != undefined) ? this.iProduct!.description : '',
           quantity:    this.iProduct!.quantity,
+          picture:     this.iProduct!.picture,
           releaseDate: this.iProduct!.releaseDate
         }
 
         this.refreshForm();
       });
+  }
+
+  async addImage() {
+    /*
+    const imagePath = await Dialog.prompt({
+      title: 'Product Picture',
+      message: 'Choose a product image.',
+      okButtonTitle: 'OK',
+      cancelButtonTitle: 'Cancel'
+    });
+    */
+   console.debug("Enter in addImage() method.");
+
+   const fileDialog = document.createElement<'input'>('input');
+   fileDialog.type = 'file';
+   fileDialog.onchange = ev => {
+     if (ev.target != null) {
+       this.product.picture = (ev.target as any).files[0];
+       console.debug(this.product.picture);
+     }
+   }
+   fileDialog.click();
+
+   if ( this.platform.is('pwa') ) {
+    console.debug("Enter in if pwa.");
+
+   }
+   /*
+   const readed = await Filesystem.readdir({
+    path: './',
+    directory: Directory.Documents,
+   });
+   */
+
+   //console.debug(readed);
   }
 }
 

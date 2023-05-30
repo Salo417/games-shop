@@ -3,7 +3,7 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator, ValidatorF
 
 
 @Directive({
-  selector: '[appDecimalValidator]',
+  selector: '[decimalValidator]',
   providers: [{provide: NG_VALIDATORS, useExisting: DecimalValidator, multi: true}]
 })
 export class DecimalValidator implements Validator {

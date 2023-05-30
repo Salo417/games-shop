@@ -9,5 +9,6 @@ export interface IProduct {
     price:         number;
     description?:  string | null;
     quantity:      number;
+    picture?:      File | null; 
     releaseDate:   Date;
 }

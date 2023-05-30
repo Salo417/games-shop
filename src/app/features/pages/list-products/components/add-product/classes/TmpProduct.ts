@@ -4,6 +4,6 @@ export interface TmpProduct {
     price:       string,
     description: string,
     quantity:    number,
-    picture:     File | null,
+    picture?:    File | null,
     releaseDate: Date | null
 }

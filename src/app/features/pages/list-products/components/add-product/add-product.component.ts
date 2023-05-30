@@ -3,12 +3,13 @@ import { EPlatforms } from 'src/app/shared/resources/product/EPlatforms';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProductForms } from './classes/ProductForm';
 import { AlertController, IonInput, Platform, ToastController } from '@ionic/angular';
-import { DecimalValidator } from '../../directives/decimal-validator.directive';
+import { DecimalValidator } from '../../directives/decimal-validator/decimal-validator.directive';
 import { ProductsService } from 'src/app/features/services/product-service/products.service';
 import { LocationStrategy } from '@angular/common';
 import { Directory, Encoding, Filesystem } from '@capacitor/filesystem';
 import { TmpProduct } from './classes/TmpProduct';
 import { Product } from 'src/app/shared/resources/product/Product';
+import { ImageFormatValidator } from '../../directives/valid-image-format/valid-image-format.directive';
 
 @Component({
   selector: 'app-add-product',
@@ -16,6 +17,7 @@ import { Product } from 'src/app/shared/resources/product/Product';
   styleUrls: ['./add-product.component.scss'],
 })
 export class AddProductComponent implements OnInit {
+  // VARIABLES
   /*
   @ViewChild('i-product-name') productName: IonInput;
   @ViewChild('i-platform')     platform:    IonInput;
@@ -24,6 +26,7 @@ export class AddProductComponent implements OnInit {
   @ViewChild('i-stock')        stock:       IonInput;
   @ViewChild('i-description')  description: IonInput;
   */
+  private static readonly VALIDS_FORMATS = ['.jpeg', '.jpg', '.png'];
 
   protected platforms = Object.values(EPlatforms);
   protected product: TmpProduct = {
@@ -46,45 +49,23 @@ export class AddProductComponent implements OnInit {
                                                                                   ]),
     releaseDate: new FormControl(this.product.releaseDate, Validators.required),
     quantity:    new FormControl(this.product.quantity,    [Validators.required, Validators.min(0)]),
+    picture:     new FormControl(this.product.picture, [Validators.required, ImageFormatValidator.validImageFormat(AddProductComponent.VALIDS_FORMATS)]),
     description: new FormControl(this.product.description, Validators.maxLength(200))
   });
   // 0 - Toast "Agregando producto, espere..."
   // 1 - Toast "Producto añadido correctamente."
   // 2 - Alert "Ha ocurrido un error. Su producto no se ha añadido."
   // 3 - Alert "Se va a agregar su producto." Confirm/Cancel
-  private uiMessages: Array<HTMLIonToastElement | HTMLIonAlertElement> = new Array(4);
+  private uiMessages: Array<HTMLIonToastElement | HTMLIonAlertElement | HTMLInputElement> = new Array(5);
 
   
   constructor(
     private productService: ProductsService, 
     private ionAlert:       AlertController, 
     private toast:          ToastController,
-    private router:    LocationStrategy,
-    private platform: Platform
+    private router:         LocationStrategy,
+    private platform:       Platform
     ) {} 
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   console.log('Cambios detectados.');
-  //   this.form
-  //     .setValue({
-  //       name:        this.product.name,
-  //       platform:    this.product.platform,
-  //       price:       Number( this.product.price.replace(',', '.') ),
-  //       releaseDate: this.product.releaseDate,
-  //       quantity:    this.product.quantity,
-  //       description: this.product.description
-  //     });
-  //     /*
-  //     .get(['name', 'platform', 'price', 'releaseDate', 'quantity', 'description'])
-  //     .setValue({
-  //       name: this.product.name,
-  //       platform: this.product.platform,
-  //       price
-  //     });
-  //     */
-  //    console.log('El formulario a cambiado a: ');
-  //    console.log(this.form.getRawValue());
-  // }
 
   ngOnInit(): void {
 
@@ -121,7 +102,7 @@ export class AddProductComponent implements OnInit {
           role: 'confirm',
           handler: () => {
             this.router.back();
-            this.uiMessages[0].present();
+            (this.uiMessages[0] as HTMLIonToastElement).present();
 
             this.productService.save( new Product(
               null, 
@@ -133,10 +114,10 @@ export class AddProductComponent implements OnInit {
               this.form.get('description')!.value!
             ))
               .then( () => {
-                this.uiMessages[1].present();
+                (this.uiMessages[1] as HTMLIonToastElement).present();
               })
               .catch( (reason) => {
-                this.uiMessages[2].present();
+                (this.uiMessages[2] as HTMLIonAlertElement).present();
               });
           }
         }
@@ -144,6 +125,21 @@ export class AddProductComponent implements OnInit {
       animated: true
     }).then(htmlIonAlert => this.uiMessages[3] = htmlIonAlert);
 
+    
+    // THIS PROBABLY WILL WORKS ON PWA,TH CHANGE IT FOR DIFFERENTS PLATFORMS
+    // Make a OS api File Manager window, but not displayed
+    this.uiMessages[4] = document.createElement<'input'>('input');
+    (this.uiMessages[4] as HTMLInputElement).type = 'file';
+    (this.uiMessages[4] as HTMLInputElement).accept = 'image/png, image/jpeg';
+    (this.uiMessages[4] as HTMLInputElement).onchange = () => this.readData();
+    (this.uiMessages[4] as HTMLInputElement).onchange = ev => {
+      if (ev.target != null) {
+        this.product.picture = (ev.target as any).files[0];
+        console.debug(this.product.picture);
+      }
+
+      this.readData();
+    }
   }
 
 
@@ -155,10 +151,6 @@ export class AddProductComponent implements OnInit {
   }
 
   customOnChange(event: any, component: IonInput) {
-    console.log('CustomOnChanges.');
-    console.log( event );
-    //let n = Number( (event as string).replace(',', '.') );
-    //let n = String( Math.floor(Number( (event as string).replace(',', '.') ) * 100 / 100) ).split('.'); //.replace('.', ',');
     let n = String( Math.floor(Number( (component.value as string).replace(',', '.') ) * 100) / 100 ).split('.'); //.replace('.', ',');
 
     console.log(n);
@@ -171,30 +163,16 @@ export class AddProductComponent implements OnInit {
         n[1] += '0';
       }
     }
-    //event = Math.floor(Number(event) * 100) /100;
-    //this.product.price = String( Math.floor(n * 100 / 100) ).replace('.', ',');
     console.log(n);
     this.product.price = n.join(',');
     component.value = this.product.price;
     this.refreshForm();
-    //this.product.price = Math.floor(event * 100) /100;
-    //this.refreshForm();
-      /*
-      .get(['name', 'platform', 'price', 'releaseDate', 'quantity', 'description'])
-      .setValue({
-        name: this.product.name,
-        platform: this.product.platform,
-        price
-      });
-      */
      console.log('El formulario a cambiado a: ');
      console.log(this.form.getRawValue());
      console.log(this.form.valid);
   }
 
-  readData() {
-    this.refreshForm();
-  }
+  readData() { this.refreshForm(); }
 
   refreshForm() {
     let relsDate: (string | Date | null) = null;
@@ -212,6 +190,7 @@ export class AddProductComponent implements OnInit {
         price:       Number( this.product.price.replace(',', '.') ),
         releaseDate: relsDate,
         quantity:    this.product.quantity,
+        picture:     this.product.picture,
         description: this.product.description
       });
   }
@@ -227,6 +206,7 @@ export class AddProductComponent implements OnInit {
     */
    console.debug("Enter in addImage() method.");
 
+   /*
    const fileDialog = document.createElement<'input'>('input');
    fileDialog.type = 'file';
    fileDialog.onchange = ev => {
@@ -235,7 +215,8 @@ export class AddProductComponent implements OnInit {
        console.debug(this.product.picture);
      }
    }
-   fileDialog.click();
+   */
+   (this.uiMessages[4] as HTMLInputElement).click();
 
    if ( this.platform.is('pwa') ) {
     console.debug("Enter in if pwa.");
@@ -251,7 +232,7 @@ export class AddProductComponent implements OnInit {
    //console.debug(readed);
   }
 
-  addProduct() { this.uiMessages[3].present(); }
+  addProduct() { (this.uiMessages[3] as HTMLIonAlertElement).present(); }
 }
 
 /*

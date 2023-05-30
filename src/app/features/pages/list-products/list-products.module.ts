@@ -11,9 +11,10 @@ import { ListProductsPage } from './list-products.page';
 import { ProductsModule } from 'src/app/shared/models/products/products.module';
 import { ProductsService } from '../../services/product-service/products.service';
 import { AddProductComponent } from './components/add-product/add-product.component';
-import { DecimalValidator } from './directives/decimal-validator.directive';
+import { DecimalValidator } from './directives/decimal-validator/decimal-validator.directive';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
 import { ImageName } from './pipes/ImageName.pipe';
+import { ImageFormatValidator } from './directives/valid-image-format/valid-image-format.directive';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { ImageName } from './pipes/ImageName.pipe';
     DecimalValidator,
     AddProductComponent,
     EditProductComponent,
-    ImageName
+    ImageName,
+    ImageFormatValidator
   ],
   providers: [ProductsService]
 })

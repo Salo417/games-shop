@@ -11,6 +11,7 @@ export interface ProductForms {
     price:       FormControl<number | null>;
     releaseDate: FormControl<Date | string | null>;
     quantity:    FormControl<number | null>;
+    picture:     FormControl<File | null | undefined>;
     description: FormControl<string | null>;
 }
 
