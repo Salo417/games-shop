@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, Subscription } from 'rxjs';
 import { IProduct } from 'src/app/shared/resources/product/IProduct';
 import { Product } from 'src/app/shared/models/products/models/Product';
 import { UserLogedService } from './user-loged.service';
@@ -104,6 +104,7 @@ export class ProductsApiService {
 
   public postProduct(product: IProduct): Observable<Object> {
     ProductsApiService.AUTH_API.JWT = sessionStorage.getItem("jwt");    // Quizas a mejorar el jwt quizas poniendolo en una var static independiente o poner en constructor
+    //let fReader = new FileReader();
     let prd = {
       name:         product.name,
       platform:     product.platform,
@@ -112,13 +113,35 @@ export class ProductsApiService {
       description:  product.description,
       quantity:     product.quantity
     }
-    const headers = new HttpHeaders({
+    const headers1 = new HttpHeaders({
       'Authorization': `Bearer ${ProductsApiService.AUTH_API.JWT}`,
       'Content-Type': 'application/json; charset=utf-8',
       'Accept': 'application/json'
     });
+    const headers2 = new HttpHeaders({
+      'Authorization': `Bearer ${ProductsApiService.AUTH_API.JWT}`,
+      'Content-Type': 'image/jpeg; image/png;',
+      'Accept': 'application/json'
+    });
+    console.debug('Picture in API post service: ', product.picture);
+    //fReader.readAsDataURL(product.picture!);
+    //fReader.
+    return new Observable<Subscription>( observer => {
+      observer.next(this.http.post(ProductsApiService.FULL_API_URL, JSON.stringify({data: prd}), { headers: headers1, responseType: 'json'})
+        .subscribe({
+          error: error => {
+            observer.error('Post error.');
+          }
+        }) );
 
-    return this.http.post(ProductsApiService.FULL_API_URL, JSON.stringify({data: prd}), { headers, responseType: 'json'});
+      observer.next(this.http.post(ProductsApiService.FULL_API_URL, {data: {picture: product.picture}}, { headers: headers2, responseType: 'json'})
+        .subscribe({
+          error: error => {
+            observer.error('Post error.');
+          }
+        }) );
+    });
+    //return this.http.post(ProductsApiService.FULL_API_URL, JSON.stringify({data: prd}), { headers: headers1, responseType: 'json'});
   }
 
   public deleteProduct(id: number) {

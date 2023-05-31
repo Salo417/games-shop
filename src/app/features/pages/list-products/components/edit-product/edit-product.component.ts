@@ -154,6 +154,7 @@ export class EditProductComponent  implements OnInit {
       this.form.get('quantity')!.value!, 
       (this.form.get('releaseDate')!.value as Date), 
       this.form.get('platform')!.value!, 
+      null,
       this.form.get('description')!.value!
     ))
       .subscribe({

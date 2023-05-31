@@ -33,6 +33,7 @@ export class ProductsService implements Dao<IProduct> {
     return await lastValueFrom( this.productApi.getProduct(id) );
   }
 
+  //Mirar funcion de abajo comentada
   async save(...product: IProduct[]) {
     
     product.forEach( async (value, index, array) => {
@@ -40,11 +41,22 @@ export class ProductsService implements Dao<IProduct> {
       await lastValueFrom( this.productApi.postProduct(value) )
         .then( (value) => { })
         .catch( (reason) => {
+          console.debug('Entrado en un error.');
           throw new Error(reason);
         });
     });
 
   }
+  /*
+  save(...product: IProduct[]): Promise<Object> {
+    //Estoy por lanzar un observable para cada promesa que se ejecute
+    product.forEach( async (value, index, array) => {
+      console.debug('Starting connection to server...');
+      return lastValueFrom( this.productApi.postProduct(value) );
+    });
+
+  }
+  */
 
   update(product: IProduct): Observable<Object> {
 

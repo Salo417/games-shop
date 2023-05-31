@@ -13,6 +13,7 @@ export class Product implements IProduct {
     private _price!:        number;
     private _description:   string | undefined | null;
     private _quantity!:     number;
+    private _picture?:      File | null;
     private _releaseDate!:  Date;
 
     // GETTERS
@@ -55,6 +56,12 @@ export class Product implements IProduct {
      */
     public get quantity(): number {
         return this._quantity;
+    }
+    /**
+     * A file object with an image. It's optional.
+     */
+    public get picture(): File | null | undefined {
+        return this._picture;
     }
     /**
      * The date when this product was released.
@@ -148,6 +155,9 @@ export class Product implements IProduct {
         */
         this._quantity = quantity;
     }
+    public set picture(picture: File | undefined | null) {
+        this._picture = picture;
+    }
     /**
      * The date when the product was released by the owner.
      */
@@ -157,13 +167,14 @@ export class Product implements IProduct {
 
 
     // CONSTRUCTORS
-    public constructor(pid: (number | null | undefined), name: string, price: number, quantity: number, relDate: Date, platform?: (string | null), description?: (string | null)) {
+    public constructor(pid: (number | null | undefined), name: string, price: number, quantity: number, relDate: Date, platform?: (string | null), picture?: (File | null), description?: (string | null)) {
         this.pid         = (pid != null) ? pid : 0;
         this.name        = name;
         this.platform    = platform;
         this.price       = price;
         this.description = description;
         this.quantity    = quantity;
+        this.picture     = picture;
         this.releaseDate = relDate;
     }
 
@@ -177,6 +188,7 @@ export class Product implements IProduct {
             p.quantity,
             p.releaseDate,
             p.platform,
+            p.picture,
             p.description
         );
     }
