@@ -4,6 +4,30 @@ import { IUser } from 'src/app/shared/resources/user/IUser';
 import { Observable, throwError, lastValueFrom } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpContext, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+
+
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyCbQtWWvU5U6lXqLx5WhCmPPJblRu4zTvw",
+
+  authDomain: "games-shop-9edc4.firebaseapp.com",
+
+  projectId: "games-shop-9edc4",
+
+  storageBucket: "games-shop-9edc4.appspot.com",
+
+  messagingSenderId: "367421470887",
+
+  appId: "1:367421470887:web:f3c0907b8a1a9a39d1c382",
+
+  measurementId: "G-EJ90G4J891"
+
+};
+
 
 
 export class User implements IUser {
