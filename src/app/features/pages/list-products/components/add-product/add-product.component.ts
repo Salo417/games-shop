@@ -86,7 +86,7 @@ export class AddProductComponent implements OnInit {
         {
           text: 'Confirmar',
           role: 'confirm',
-          handler: () => this.router.back()
+          //handler: () => this.router.back()
         }
       ]
     }).then(htmlAlert => this.uiMessages[2] = htmlAlert);
@@ -114,13 +114,20 @@ export class AddProductComponent implements OnInit {
               this.form.get('picture')!.value,
               this.form.get('description')!.value!
             ))
-              .then( () => {
-                (this.uiMessages[1] as HTMLIonToastElement).present();
+              .subscribe({
+                next:      () => (this.uiMessages[1] as HTMLIonToastElement).present(),
+                error: reason => {
+                  console.debug(reason);
+                  (this.uiMessages[2] as HTMLIonAlertElement).present();
+                }
               })
-              .catch( (reason) => {
-                console.debug('Encima de Toast de error.');
-                (this.uiMessages[2] as HTMLIonAlertElement).present();
-              });
+              // .then( () => {
+              //   (this.uiMessages[1] as HTMLIonToastElement).present();
+              // })
+              // .catch( (reason) => {
+              //   console.debug('Encima de Toast de error.');
+              //   (this.uiMessages[2] as HTMLIonAlertElement).present();
+              // });
           }
         }
       ],
@@ -133,8 +140,8 @@ export class AddProductComponent implements OnInit {
     this.uiMessages[4] = document.createElement<'input'>('input');
     (this.uiMessages[4] as HTMLInputElement).type = 'file';
     (this.uiMessages[4] as HTMLInputElement).accept = 'image/png, image/jpeg';
-    (this.uiMessages[4] as HTMLInputElement).onchange = ev => {
-      if (ev.target != null) {
+    (this.uiMessages[4] as HTMLInputElement).addEventListener('change', ev => {
+      if ( (ev.target as any).files[0] != null  &&  (ev.target as any).files[0] != undefined) {
         this.product.picture = (ev.target as any).files[0];
         console.debug(this.product.picture);
 
@@ -153,7 +160,7 @@ export class AddProductComponent implements OnInit {
       }
 
       this.readData();
-    }
+    });
   }
 
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, lastValueFrom } from 'rxjs';
 import { IProduct } from 'src/app/shared/resources/product/IProduct';
 import { Product } from 'src/app/shared/models/products/models/Product';
-import { ProductsApiService } from '../../../core/services/connections/products-api.service';
+import { ProductsApiService } from 'src/app/core/services/connections/products-api.service';
 import { Dao } from 'src/app/shared/resources/dao/Dao';
 import { ErrUserPidNotDefined } from 'src/app/shared/errors/ErrUserPidNotDefined';
 
@@ -34,6 +34,7 @@ export class ProductsService implements Dao<IProduct> {
   }
 
   //Mirar funcion de abajo comentada
+  /*
   async save(...product: IProduct[]) {
     
     product.forEach( async (value, index, array) => {
@@ -47,16 +48,42 @@ export class ProductsService implements Dao<IProduct> {
     });
 
   }
-  /*
-  save(...product: IProduct[]): Promise<Object> {
-    //Estoy por lanzar un observable para cada promesa que se ejecute
-    product.forEach( async (value, index, array) => {
-      console.debug('Starting connection to server...');
-      return lastValueFrom( this.productApi.postProduct(value) );
-    });
-
-  }
   */
+ /**
+  * 
+  * @throws HTTP error if something goes wrong, like Internet connection, server down...
+  * @param product 
+  * @returns 
+  */
+  save(...product: IProduct[]): Observable<void> {
+    console.debug('Starting connection to server...');
+    return new Observable( observable => {
+      const numConections = product.length;
+      const listError     = [];             // idk if exist something similar to Java ArrayList in JS/TS
+      let counter = 0;
+      let incident = false;
+      const compleatEvent = () => {
+        ++counter;
+        
+        console.assert(counter <= numConections, 'Counter sholud be less or equal than numConnections.');
+        if      (numConections == counter  &&  !incident) 
+          observable.complete();
+        else if (numConections == counter  &&   incident)
+          observable.error();
+      }
+      const onFailed = (error: any) => {
+        incident = true;
+        listError.push(error);
+      }
+
+      product.forEach( value => {
+        //observable.next( lastValueFrom( this.productApi.postProduct(value) ).catch( error => observable.error(error) ).finally( () => compleatEvent() ) );
+        //observable.next(this.productApi.postProduct(value).catch(error => observable.error(error)).finally( () => compleatEvent() ));
+        //this.productApi.postProduct(value).finally( () => compleatEvent() );
+        this.productApi.postProduct(value).catch( error => onFailed(error) ).finally( () => compleatEvent() );
+      });
+    });
+  }
 
   update(product: IProduct): Observable<Object> {
 
